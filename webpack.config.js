@@ -6,5 +6,5 @@ module.exports = {
     filename: 'banana-i18n.js',
     path: path.resolve(__dirname, 'dist')
   },
-  devtool: 'inline-source-map'
+  devtool: 'source-map'
 }
