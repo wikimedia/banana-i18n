@@ -7,7 +7,7 @@ class Banana {
     this.parser = new BananaParser(this.locale, options)
     this.messageStore = new BananaMessageStore(options)
     if (options.messages) {
-      this.load(options.message)
+      this.load(options.messages, this.locale)
     }
   }
 

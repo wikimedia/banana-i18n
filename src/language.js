@@ -1,5 +1,6 @@
 import PLURALRULES from './pluralrules.json'
 import DIGITTRANSFORMTABLE from './digit-transform.json'
+import pluralRuleParser from 'cldrpluralruleparser'
 
 class BananaLanguage {
   constructor (locale) {
