@@ -1,0 +1,6 @@
+{
+    "msg-one": "One",
+    "msg-two": "$1 results",
+    "msg-three": "{{plural:$1|One result|$1 results}}",
+    "msg-four": "There {{plural:$1|is one result|are $1 results}} in {{plural:$2|one file|$2 files}}"
+}
