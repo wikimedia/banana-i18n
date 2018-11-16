@@ -24,7 +24,6 @@ describe('Banana', function () {
     assert.strictEqual(banana.i18n('msg-one'), 'One')
     assert.strictEqual(banana.i18n('msg-two', 10), '10 results')
     assert.strictEqual(banana.i18n('msg-three', 10), '10 results')
-    assert.strictEqual(banana.i18n('msg-three', 1), 'One result')
     assert.strictEqual(banana.i18n('msg-four', 10, 4), 'There are 10 results in 4 files')
   })
 })
