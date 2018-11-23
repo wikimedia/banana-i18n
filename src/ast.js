@@ -1,4 +1,8 @@
-function BananaMessage (message) {
+/**
+ * Abstract Syntax Tree for a localization message in 'Banana' format
+ * @param {string} message
+ */
+export default function BananaMessage (message) {
   let pipe, colon, backslash, anyCharacter, dollar, digits, regularLiteral,
     regularLiteralWithoutBar, regularLiteralWithoutSpace, escapedOrLiteralWithoutBar,
     escapedOrRegularLiteral, templateContents, templateName, openTemplate,
@@ -25,14 +29,12 @@ function BananaMessage (message) {
   // All must succeed; otherwise, return null.
   // This is the only eager one.
   function sequence (parserSyntax) {
-    let i, res
-
     let originalPos = pos
 
     let result = []
 
-    for (i = 0; i < parserSyntax.length; i++) {
-      res = parserSyntax[ i ]()
+    for (let i = 0; i < parserSyntax.length; i++) {
+      let res = parserSyntax[ i ]()
 
       if (res === null) {
         pos = originalPos
@@ -49,7 +51,7 @@ function BananaMessage (message) {
   // Run the same parser over and over until it fails.
   // Must succeed a minimum of n times; otherwise, return null.
   function nOrMore (n, p) {
-    return function () {
+    return () => {
       let originalPos = pos
 
       let result = []
@@ -76,7 +78,7 @@ function BananaMessage (message) {
   function makeStringParser (s) {
     let len = s.length
 
-    return function () {
+    return () => {
       let result = null
 
       if (message.slice(pos, pos + len) === s) {
@@ -89,7 +91,7 @@ function BananaMessage (message) {
   }
 
   function makeRegexParser (regex) {
-    return function () {
+    return () => {
       let matches = message.slice(pos).match(regex)
 
       if (matches === null) {
@@ -256,5 +258,3 @@ function BananaMessage (message) {
 
   return result
 }
-
-export default BananaMessage

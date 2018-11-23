@@ -1,7 +1,7 @@
 import BananaEmitter from './emitter'
 import BananaMessage from './ast'
 
-class BananaParser {
+export default class BananaParser {
   constructor (locale, options) {
     this.locale = locale
     this.emitter = new BananaEmitter(this.locale)
@@ -23,5 +23,3 @@ class BananaParser {
     })
   }
 }
-
-export default BananaParser

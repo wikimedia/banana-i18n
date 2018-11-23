@@ -2,7 +2,7 @@ import PLURALRULES from './pluralrules.json'
 import DIGITTRANSFORMTABLE from './digit-transform.json'
 import pluralRuleParser from 'cldrpluralruleparser'
 
-class BananaLanguage {
+export default class BananaLanguage {
   constructor (locale) {
     this.locale = locale
   }
@@ -184,5 +184,3 @@ class BananaLanguage {
     return DIGITTRANSFORMTABLE[ language ].split('')
   }
 }
-
-export default BananaLanguage
