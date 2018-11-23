@@ -4,6 +4,7 @@ import FALLBACKS from './languages/fallbacks.json'
 
 export default class Banana {
   constructor (locale, options) {
+    options = options || {}
     this.locale = locale
     this.parser = new BananaParser(this.locale, options)
     this.messageStore = new BananaMessageStore(options)
@@ -48,5 +49,6 @@ export default class Banana {
       locale = (FALLBACKS[ this.locale ] && FALLBACKS[ this.locale ][ fallbackIndex ])
       fallbackIndex++
     }
+    return messageKey
   }
 }

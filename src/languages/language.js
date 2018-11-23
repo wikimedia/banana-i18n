@@ -35,11 +35,7 @@ export default class BananaLanguage {
       }
     }
 
-    forms = forms.map((form) => {
-      if (form !== undefined) {
-        return form
-      }
-    })
+    forms = forms.filter((form) => !!form)
 
     let pluralRules = PLURALRULES[ this.locale ]
 

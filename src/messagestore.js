@@ -1,5 +1,6 @@
 export default class BananaMessageStore {
   constructor (options) {
+    options = options || {}
     this.sourceMap = new Map()
     this.locale = options.locale
   }
