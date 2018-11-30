@@ -1,0 +1,43 @@
+body {
+    font-size: 1em;
+    margin: auto;
+    color: #333;
+}
+
+.header {
+    background: #258dc8;
+    padding: 2px;
+    margin-bottom: 1em
+}
+
+.lead {
+    padding: 0 10%;
+    margin: auto;
+}
+
+.header h1 {
+    color: #fff;
+    padding: 0 10%;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+footer {
+    padding: 0 10%;
+}
+
+select {
+    font-size: 1em;
+}
+
+.input {
+    padding: 5px;
+    width: 50px;
+}
+
+.result {
+    padding: 1em;
+    font-size: 1.2em;
+    line-height: 1.5em;
+    background-color: #f8ffe8;
+}
