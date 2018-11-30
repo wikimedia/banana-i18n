@@ -62,7 +62,7 @@ If you are curious to see some real jquery.i18n message file from other projects
 Messages take parameters. They are represented by $1, $2, $3, … in the message texts, and replaced at run time. Typical parameter values are numbers (Example: "Delete 3 versions?"), or user names (Example: "Page last edited by $1"), page names, links, and so on, or sometimes other messages.
 
 ```javascript
-var message = "Welcome, $1";
+const message = "Welcome, $1";
 banana.i18n(message, 'Alice'); // This gives "Welcome, Alice"
 ```
 
@@ -74,7 +74,7 @@ To make the syntax of sentence correct, plural forms are required. jquery.i18n s
 For example:
 
 ```javascript
-var message = "Found $1 {{PLURAL:$1|result|results}}";
+const message = "Found $1 {{PLURAL:$1|result|results}}";
 banana.i18n(message, 1); // This gives "Found 1 result"
 banana.i18n(message, 4); // This gives "Found 4 results"
 ```
@@ -90,7 +90,7 @@ You cannot skip a plural form from the middle or beginning. However you can skip
 If there is an explicit plural form to be given for a specific number, it is possible with the following syntax
 
 ```
-var message = 'Box has {{PLURAL:$1|one egg|$1 eggs|12=a dozen eggs}}.';
+const message = 'Box has {{PLURAL:$1|one egg|$1 eggs|12=a dozen eggs}}.';
 banana.i18n(message, 4 ); // Gives "Box has 4 eggs."
 banana.i18n(message, 12 ); // Gives "Box has a dozen eggs."
 ```
@@ -99,7 +99,7 @@ banana.i18n(message, 12 ); // Gives "Box has a dozen eggs."
 Similar to plural, depending on gender of placeholders, mostly user names, the syntax changes dynamically. An example in English is "Alice changed her profile picture" and "Bob changed his profile picture". To support this {{GENDER...}} syntax can be used as show in example
 
 ```javascript
-var message = "$1 changed {{GENDER:$2|his|her}} profile picture";
+const message = "$1 changed {{GENDER:$2|his|her}} profile picture";
 banana.i18n(message, 'Alice', 'female' ); // This gives "Alice changed her profile picture"
 banana.i18n(message, 'Bob', 'male' ); // This gives "Bob changed his profile picture"
 ```
@@ -110,13 +110,13 @@ Note that {{GENDER:...}} is not case sensitive. It can be {{gender:...}} too.
 
 
 ```javascript
-var banana=new Banana( { locale: 'fi' } );
+const banana=new Banana( { locale: 'fi' } );
 
-var message = "{{grammar:genitive|$1}}";
+const message = "{{grammar:genitive|$1}}";
 
 banana.i18n(message, 'talo' ); // This gives "talon"
 
-banana.i18n().locale = 'hy'; // Switch to locale Armenian
+banana.locale = 'hy'; // Switch to locale Armenian
 banana.i18n(message, 'Մաունա'); // This gives "Մաունայի"
 ```
 
