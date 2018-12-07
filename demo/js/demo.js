@@ -10,7 +10,7 @@ function updateText () {
   const personName = personSelector.options[personSelector.selectedIndex].text
   const kittens = document.getElementById('kittens').value
 
-  banana.locale = language
+  banana.setLocale(language)
 
   fetch('i18n/demo-' + banana.locale + '.json').then((response) => response.json()).then((messages) => {
     banana.load(messages, banana.locale)
