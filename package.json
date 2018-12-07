@@ -2,7 +2,7 @@
   "name": "banana-i18n",
   "version": "1.0.0",
   "description": "Banana Internationalization library",
-  "main": "index.js",
+  "main": "dist/banana-i18n.js",
   "scripts": {
     "test": "NODE_ENV=test mocha",
     "build": "webpack --mode=production"
@@ -16,6 +16,10 @@
   "author": {
     "name": "Santhosh Thottingal",
     "email": "santhosh.thottingal@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wikimedia/banana-i18n.git"
   },
   "license": "MIT",
   "devDependencies": {
