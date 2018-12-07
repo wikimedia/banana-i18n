@@ -6,13 +6,19 @@ export default class Banana {
   constructor (locale, options) {
     options = options || {}
     this.locale = locale
-    this.parser = new BananaParser(this.locale, options)
-    this.messageStore = new BananaMessageStore(options)
+    this.parser = new BananaParser(this.locale)
+    this.messageStore = new BananaMessageStore()
     if (options.messages) {
       this.load(options.messages, this.locale)
     }
   }
 
+  /**
+   * Load localized messages for a locale
+   * If locale not provided, the keys in messageSource will be used as locales.
+   * @param {Object} messageSource
+   * @param {string} [locale]
+   */
   load (messageSource, locale) {
     return this.messageStore.load(messageSource, locale || this.locale)
   }
@@ -21,8 +27,13 @@ export default class Banana {
     return this.parser.parse(this.getMessage(key), parameters)
   }
 
+  setLocale (locale) {
+    this.locale = locale
+    // Update parser
+    this.parser = new BananaParser(this.locale)
+  }
+
   getMessage (messageKey) {
-    // return this.messageStore.getMessage(key, this.locale) || key
     let locale = this.locale
     let fallbackIndex = 0
     while (locale) {
@@ -33,6 +44,7 @@ export default class Banana {
 
       do {
         let tryingLocale = localeParts.slice(0, localePartIndex).join('-')
+
         let message = this.messageStore.getMessage(messageKey, tryingLocale)
 
         if (message) {

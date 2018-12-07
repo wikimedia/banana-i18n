@@ -1,8 +1,6 @@
 export default class BananaMessageStore {
   constructor (options) {
-    options = options || {}
     this.sourceMap = new Map()
-    this.locale = options.locale
   }
 
   /**
@@ -12,12 +10,11 @@ export default class BananaMessageStore {
    * @returns Promise
    */
   load (messageSource, locale) {
-    if (typeof messageSource === 'object' && !locale) {
+    if ((typeof messageSource === 'object') && !locale) {
       for (locale in messageSource) {
         this.load(messageSource[locale], locale)
       }
-    }
-    if (typeof messageSource === 'object' && locale) {
+    } else if ((typeof messageSource === 'object') && locale) {
       this.sourceMap.set(locale, messageSource)
     }
   }
