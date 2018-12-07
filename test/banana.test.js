@@ -315,6 +315,25 @@ describe('Banana', function () {
     assert.strictEqual(banana.i18n('msg-four', 10, 4), 'There are 10 results in 4 files')
   })
 
+  it('should load the messages for multiple locales', () => {
+    const banana = new Banana()
+    const messages = {
+      en: {
+        message_1: 'Message one'
+      },
+      ml: {
+        message_1: 'ഒന്നാമത്തെ മെസ്സേജ്'
+      }
+    }
+    banana.load(messages)
+    assert.ok(banana.messageStore.hasLocale('en'))
+    assert.ok(banana.messageStore.hasLocale('ml'))
+    banana.setLocale('en')
+    assert.strictEqual(banana.i18n('message_1'), 'Message one')
+    banana.setLocale('ml')
+    assert.strictEqual(banana.i18n('message_1'), 'ഒന്നാമത്തെ മെസ്സേജ്')
+  })
+
   it('should parse the plural and gender', () => {
     let locale = 'en'
     const banana = new Banana(locale, {})
