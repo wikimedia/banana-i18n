@@ -1,11 +1,7 @@
-'use strict'
+import eslint from 'mocha-eslint'
 
-const lint = require('mocha-eslint')
-
-const paths = [
+// Run the eslint tests
+eslint([
   'src/**/*.js',
   'test/**/*.js'
-]
-
-// Run the tests
-lint(paths)
+])
