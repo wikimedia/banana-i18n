@@ -124,6 +124,11 @@ banana.setLocale('es'); // Change to new locale
 
 All .i18n() calls will set the message for the new locale from there onwards.
 
+## Fallback
+
+If a particular message is not localized for locale, but localized for a fallback locale(defined in src/languages/fallbacks.json),
+the .i18n() method will return that. By default English is the final fallback language. But this configurable using `finalFallback` option. Example: `new Banana('ru', {finalFallback:'es' })`
+
 ## Placeholders
 
 Messages take parameters. They are represented by $1, $2, $3, … in the message texts, and replaced at run time. Typical parameter values are numbers (Example: "Delete 3 versions?"), or user names (Example: "Page last edited by $1"), page names, links, and so on, or sometimes other messages.

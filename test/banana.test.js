@@ -319,10 +319,14 @@ describe('Banana', function () {
     const banana = new Banana()
     const messages = {
       en: {
-        message_1: 'Message one'
+        message_1: 'Message one',
+        message_2: 'Message two'
       },
       ml: {
         message_1: 'ഒന്നാമത്തെ മെസ്സേജ്'
+      },
+      es: {
+        message_1: 'Message one'
       }
     }
     banana.load(messages)
@@ -332,6 +336,8 @@ describe('Banana', function () {
     assert.strictEqual(banana.i18n('message_1'), 'Message one')
     banana.setLocale('ml')
     assert.strictEqual(banana.i18n('message_1'), 'ഒന്നാമത്തെ മെസ്സേജ്')
+    banana.setLocale('es')
+    assert.strictEqual(banana.i18n('message_2'), 'Message two', 'Fallbacks to en message')
   })
 
   it('should parse the plural and gender', () => {

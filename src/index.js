@@ -11,6 +11,7 @@ export default class Banana {
     if (options.messages) {
       this.load(options.messages, this.locale)
     }
+    this.finalFallback = options.finalFallback || 'en'
   }
 
   /**
@@ -58,7 +59,7 @@ export default class Banana {
         break
       }
 
-      locale = (FALLBACKS[ this.locale ] && FALLBACKS[ this.locale ][ fallbackIndex ])
+      locale = FALLBACKS[ this.locale ] ? FALLBACKS[ this.locale ][ fallbackIndex ] : this.finalFallback
       fallbackIndex++
     }
     return messageKey

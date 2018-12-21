@@ -21,12 +21,13 @@ export default class BananaMessageStore {
 
   getMessage (key, locale) {
     let localeMessages = this.sourceMap.get(locale)
-    return localeMessages ? localeMessages[key] : key
+    return localeMessages ? localeMessages[key] : null
   }
 
   /**
    * Check if the given locale is present in the message store or not
    * @param {string} locale
+   * @returns {boolean}
    */
   hasLocale (locale) {
     return this.sourceMap.has(locale)
