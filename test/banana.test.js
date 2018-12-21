@@ -340,6 +340,71 @@ describe('Banana', function () {
     assert.strictEqual(banana.i18n('message_2'), 'Message two', 'Fallbacks to en message')
   })
 
+  it('should respect finalFallback option', () => {
+    const banana = new Banana('es', {
+      messages: {
+        ml: {
+          message_1: 'ഒന്നാമത്തെ മെസ്സേജ്',
+          message_2: 'രണ്ടാമത്തെ മെസ്സേജ്'
+        },
+        en: {
+          message_1: 'Message one',
+          message_2: 'Message two'
+        }
+      },
+      finalFallback: 'ml'
+    })
+    assert.ok(!banana.messageStore.hasLocale('es'))
+    assert.ok(banana.messageStore.hasLocale('en'))
+    assert.ok(banana.messageStore.hasLocale('ml'))
+    assert.strictEqual(banana.i18n('message_2'), 'രണ്ടാമത്തെ മെസ്സേജ്')
+  })
+
+  it('should respect locales with country codes', () => {
+    const banana = new Banana('en-GB', {
+      messages: {
+        'en': {
+          message_1: 'Message one',
+          message_2: 'Message two'
+        }
+      }
+    })
+    assert.strictEqual(banana.i18n('message_2'), 'Message two')
+  })
+
+  it('should throw errors on invalid locales', () => {
+    assert.throws(() => {
+      // eslint-disable-next-line no-new
+      new Banana('es/en', {
+        messages: {
+          message_1: 'Message one',
+          message_2: 'Message two'
+        }
+      })
+    }, Error, 'Invalid locale es/en')
+  })
+
+  it('should throw errors on invalid message source', () => {
+    assert.throws(() => {
+      // eslint-disable-next-line no-new
+      new Banana('es/en', {
+        messages: []
+      })
+    }, Error, 'Invalid message source.')
+  })
+
+  it('should throw errors on invalid message key', () => {
+    assert.throws(() => {
+      // eslint-disable-next-line no-new
+      new Banana('es/en', {
+        messages: {
+          message_1: ['Message one'],
+          message_2: 'Message two'
+        }
+      })
+    }, Error, 'Invalid message key.')
+  })
+
   it('should parse the plural and gender', () => {
     let locale = 'en'
     const banana = new Banana(locale, {})

@@ -5,17 +5,40 @@ export default class BananaMessageStore {
 
   /**
    *
-   * @param {Object|string} messageSource
-   * @param {string} locale
-   * @returns Promise
+   * @param {Object} messageSource
+   * @param {string} locale BCP 47 language tag.  In its most common form
+   *   it can contain, in order: a language code, a script code, and a country
+   *   or region code, all separated by hyphens. A very minimal validation
+   *   is done.
    */
   load (messageSource, locale) {
-    if ((typeof messageSource === 'object') && !locale) {
+    if (typeof messageSource !== 'object') {
+      throw Error(`Invalid message source. Must be an object`)
+    }
+
+    if (locale) {
+      // Validate locale. This is a very minimal test for BCP 47 language tag
+      if (!/^[a-zA-Z0-9-]+$/.test(locale)) {
+        throw Error(`Invalid locale ${locale}`)
+      }
+      // Validate messages
+      for (let key in messageSource) {
+        if (key.indexOf('@') === 0) continue
+        // Check if the message source is locale - message data
+        if (typeof messageSource[key] === 'object') {
+          // The passed locale argument is irrelevant here.
+          return this.load(messageSource)
+        }
+        if (typeof messageSource[key] !== 'string') {
+          throw Error(`Invalid message for message ${key} in ${locale} locale.`)
+        }
+        break
+      }
+      this.sourceMap.set(locale, messageSource)
+    } else {
       for (locale in messageSource) {
         this.load(messageSource[locale], locale)
       }
-    } else if ((typeof messageSource === 'object') && locale) {
-      this.sourceMap.set(locale, messageSource)
     }
   }
 
