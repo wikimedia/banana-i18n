@@ -338,6 +338,8 @@ describe('Banana', function () {
     assert.strictEqual(banana.i18n('message_1'), 'ഒന്നാമത്തെ മെസ്സേജ്')
     banana.setLocale('es')
     assert.strictEqual(banana.i18n('message_2'), 'Message two', 'Fallbacks to en message')
+    banana.setLocale('uk')
+    assert.strictEqual(banana.i18n('message_2'), 'Message two', 'Fallbacks to en message by first checking ru.')
   })
 
   it('should respect finalFallback option', () => {

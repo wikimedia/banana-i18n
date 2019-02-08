@@ -55,11 +55,11 @@ export default class Banana {
         localePartIndex--
       } while (localePartIndex)
 
-      if (locale === 'en') {
+      if (locale === this.finalFallback) {
         break
       }
 
-      locale = FALLBACKS[ this.locale ] ? FALLBACKS[ this.locale ][ fallbackIndex ] : this.finalFallback
+      locale = (FALLBACKS[ this.locale ] && FALLBACKS[ this.locale ][ fallbackIndex ]) || this.finalFallback
       fallbackIndex++
     }
     return messageKey
