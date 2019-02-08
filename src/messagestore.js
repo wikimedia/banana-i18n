@@ -34,7 +34,11 @@ export default class BananaMessageStore {
         }
         break
       }
-      this.sourceMap.set(locale, messageSource)
+      if (this.sourceMap.has(locale)) {
+        this.sourceMap.set(locale, Object.assign(this.sourceMap.get(locale), messageSource))
+      } else {
+        this.sourceMap.set(locale, messageSource)
+      }
     } else {
       for (locale in messageSource) {
         this.load(messageSource[locale], locale)

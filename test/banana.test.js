@@ -407,6 +407,25 @@ describe('Banana', function () {
     }, Error, 'Invalid message key.')
   })
 
+  it('should merge messages when added to an existing locale', () => {
+    const banana = new Banana('ca', {
+      messages: {
+        'ca': {
+          message_1: 'Message one',
+          message_2: 'Message two'
+        }
+      }
+    })
+    // Add some more messages
+    banana.load({
+      message_2: 'Message two - new',
+      message_3: 'Message three'
+    }, 'ca')
+    assert.strictEqual(banana.i18n('message_1'), 'Message one')
+    assert.strictEqual(banana.i18n('message_2'), 'Message two - new')
+    assert.strictEqual(banana.i18n('message_3'), 'Message three')
+  })
+
   it('should parse the plural and gender', () => {
     let locale = 'en'
     const banana = new Banana(locale, {})

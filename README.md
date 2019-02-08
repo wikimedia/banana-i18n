@@ -108,6 +108,8 @@ fetch('i18n/es.json').then((response) => response.json()).then((messages) => {
 });
 ```
 
+You may load the messages in parts too. That means, you can use the `banana.load(message_set1, 'es')` and later `banana.load(message_set2, 'es')`. Both of the messages will be merged to the locale. If message_2 has the same key of message_set1, the last message loaded wins.
+
 ## Setting the locale
 
 The constructor for Banana class accepts the locale
