@@ -1,6 +1,8 @@
 # banana-i18n - Javascript Internationalization library
 
 [![Build Status](https://secure.travis-ci.org/wikimedia/banana-i18n.png)](http://travis-ci.org/wikimedia/banana-i18n)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/wikimedia/banana-18n/blob/master/LICENSE)
+[![npm version](https://img.shields.io/npm/v/banana-i18n.svg?style=flat)](https://www.npmjs.com/package/banana-i18n)
 
 banana-i18n is a javascript internationalization library that uses "banana" format - A JSON based localization file format.
 
@@ -252,3 +254,9 @@ To translate the banana-i18n based application, depending on the expertise of th
 - Editing the json files directly - Suitable for translators with technical background. Also suitable if your application is small and you want to work with only a small number of languages
 - Providing a translation interface along with your application: Suitable for proprietary or private applications with significant amount of translators
 - Using open source translation platforms like translatewiki.net. The MediaWiki and jquery.uls from previous examples use translatewiki.net for crowdsourced message translation. Translatewiki.net can update your code repo in regular intervals with updated translations. Highly recommended if your application is opensource and want localized to as many as languages possible with maximum number of translators.
+
+## Frameworks
+
+* React bindings for banana-i18n  https://www.npmjs.com/package/@wikimedia/react.i18n
+* A Banana-i18n wrapper to support localization in Vue.js https://www.npmjs.com/package/vue-banana-i18n
+
