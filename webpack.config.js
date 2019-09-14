@@ -5,7 +5,8 @@ module.exports = {
   output: {
     library: 'Banana',
     libraryExport: 'default',
-    libraryTarget: 'commonjs2',
+    libraryTarget: 'umd',
+    globalObject: 'this',
     filename: 'banana-i18n.js',
     path: path.resolve(__dirname, 'dist')
   },
