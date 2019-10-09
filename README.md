@@ -8,7 +8,7 @@ banana-i18n is a javascript internationalization library that uses "banana" form
 
 ## Banana File format
 
-The message files are json formatted. As a convention you can have a folder named i18n inside your source code. For each language or locale, have a file named like languagecode.json.
+The message files are json formatted. As a convention, you can have a folder named i18n inside your source code. For each language or locale, have a file named like languagecode.json.
 
 Example:
 
@@ -51,7 +51,7 @@ A simple en.json file example is given below
 
 The json file should be a valid json. The ```@metadata``` holds all kind of data that are not messages. You can store author information, copyright, updated date or anything there.
 
-Messages are key value pairs. It is a good convention to prefix your appname to message keys to make the messages unique. It acts as the namespace for the message keys. It is also a good convention to have the message keys with ```-``` separated words, all in lower case.
+Messages are key-value pairs. It is a good convention to prefix your appname to message keys to make the messages unique. It acts as the namespace for the message keys. It is also a good convention to have the message keys with ```-``` separated words, all in lower case.
 
 If you are curious to see some real jquery.i18n message file from other projects:
 
@@ -161,8 +161,8 @@ In case of English, there are only 2 plural forms, but many languages use more t
 
 For example, English has 2 plural forms and the message format will look like `{{PLURAL:$1|one|other}}`. for Arabic there are 6 plural forms and format will look like `{{PLURAL:$1|zero|one|two|few|many|other}}`.
 
-You cannot skip a plural form from the middle or beginning. However you can skip from end. For example, in arabic, if the message is like
-`{{PLURAL:$1|A|B}}`, for 0, A will be used, for numbers that fall under one,two,few,many,other categories B will be used.
+You cannot skip a plural form from the middle or beginning. However, you can skip from end. For example, in Arabic, if the message is like
+`{{PLURAL:$1|A|B}}`, for 0, A will be used, for numbers that fall under one, two, few, many, other categories B will be used.
 
 If there is an explicit plural form to be given for a specific number, it is possible with the following syntax
 
@@ -174,7 +174,7 @@ banana.i18n(message, 12 ); // Gives "Box has a dozen eggs."
 
 ## Gender
 
-Similar to plural, depending on gender of placeholders, mostly user names, the syntax changes dynamically. An example in English is "Alice changed her profile picture" and "Bob changed his profile picture". To support this {{GENDER...}} syntax can be used as show in example
+Similar to plural, depending on gender of placeholders, mostly user names, the syntax changes dynamically. An example in English is "Alice changed her profile picture" and "Bob changed his profile picture". To support this {{GENDER...}} syntax can be used as shown in example
 
 ```javascript
 const message = "$1 changed {{GENDER:$2|his|her}} profile picture";
@@ -253,7 +253,7 @@ To translate the banana-i18n based application, depending on the expertise of th
 
 - Editing the json files directly - Suitable for translators with technical background. Also suitable if your application is small and you want to work with only a small number of languages
 - Providing a translation interface along with your application: Suitable for proprietary or private applications with significant amount of translators
-- Using open source translation platforms like translatewiki.net. The MediaWiki and jquery.uls from previous examples use translatewiki.net for crowdsourced message translation. Translatewiki.net can update your code repo in regular intervals with updated translations. Highly recommended if your application is opensource and want localized to as many as languages possible with maximum number of translators.
+- Using open source translation platforms like translatewiki.net. The MediaWiki and jquery.uls from previous examples use translatewiki.net for crowdsourced message translation. Translatewiki.net can update your code repo at regular intervals with updated translations. Highly recommended if your application is opensource and want it to be localized to as many as languages possible with maximum number of translators.
 
 ## Frameworks
 
