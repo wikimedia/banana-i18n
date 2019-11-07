@@ -600,6 +600,15 @@ describe('Banana', function () {
   for (var langCode in grammarTests) {
     grammarTest(langCode, grammarTests[langCode])
   }
+
+  it('should localize the messages with bidi arguments', () => {
+    const fallbacks = new Banana('uk').getFallbackLocales()
+    assert.deepStrictEqual(
+      fallbacks,
+      ['ru', 'en'],
+      'Correct fallback locales'
+    )
+  })
 })
 
 function grammarTest (langCode, test) {
