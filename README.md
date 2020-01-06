@@ -260,3 +260,6 @@ To translate the banana-i18n based application, depending on the expertise of th
 * React bindings for banana-i18n  https://www.npmjs.com/package/@wikimedia/react.i18n
 * A Banana-i18n wrapper to support localization in Vue.js https://www.npmjs.com/package/vue-banana-i18n
 
+## Thanks
+
+This project is based on [jquery.i18n](github.com/wikimedia/jquery.i18n) library maintained by Wikimedia Foundation. Most of the internationalization related logic comes from that project. In Banana-i18n, jquery dependency was removed and the library was modernized to use in modern web applications. Contributors of jquery.i18n are greatly acknowledged and listed in AUTHORS.md
