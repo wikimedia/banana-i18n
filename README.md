@@ -120,7 +120,7 @@ The constructor for Banana class accepts the locale
 const banana = new Banana('es')
 ```
 
-Once the banana i18n is initialized you can change the lcoale using setLocale method
+Once the banana i18n is initialized you can change the locale using setLocale method
 
 ```javascript
 banana.setLocale('es'); // Change to new locale
