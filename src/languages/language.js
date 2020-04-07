@@ -43,10 +43,11 @@ export default class BananaLanguage {
    * For the number, get the plural for index
    *
    * @param {integer} number
+   * @param {string} locale
    * @return {integer} plural form index
    */
   getPluralForm (number, locale) {
-    // Alowed forms as per CLDR spec
+    // Allowed forms as per CLDR spec
     const pluralForms = [ 'zero', 'one', 'two', 'few', 'many', 'other' ]
     // Create an instance of Intl PluralRules. If the locale is invalid or
     // not supported, it fallbacks to `en`.
