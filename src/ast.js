@@ -3,10 +3,9 @@
  * @param {string} message
  */
 export default function BananaMessage (message) {
-  let pipe, colon, backslash, anyCharacter, dollar, digits, regularLiteral,
-    regularLiteralWithoutBar, regularLiteralWithoutSpace, escapedOrLiteralWithoutBar,
-    escapedOrRegularLiteral, templateContents, templateName, openTemplate,
-    closeTemplate, expression, paramExpression, result
+  let escapedOrLiteralWithoutBar,
+    escapedOrRegularLiteral, templateContents, templateName,
+    expression, paramExpression, result
 
   let pos = 0
 
@@ -104,15 +103,16 @@ export default function BananaMessage (message) {
     }
   }
 
-  pipe = makeStringParser('|')
-  colon = makeStringParser(':')
-  backslash = makeStringParser('\\')
-  anyCharacter = makeRegexParser(/^./)
-  dollar = makeStringParser('$')
-  digits = makeRegexParser(/^\d+/)
-  regularLiteral = makeRegexParser(/^[^{}[\]$\\]/)
-  regularLiteralWithoutBar = makeRegexParser(/^[^{}[\]$\\|]/)
-  regularLiteralWithoutSpace = makeRegexParser(/^[^{}[\]$\s]/)
+  const whitespace = makeRegexParser(/^\s+/)
+  const pipe = makeStringParser('|')
+  const colon = makeStringParser(':')
+  const backslash = makeStringParser('\\')
+  const anyCharacter = makeRegexParser(/^./)
+  const dollar = makeStringParser('$')
+  const digits = makeRegexParser(/^\d+/)
+  const regularLiteral = makeRegexParser(/^[^{}[\]$\\]/)
+  const regularLiteralWithoutBar = makeRegexParser(/^[^{}[\]$\\|]/)
+  const regularLiteralWithoutSpace = makeRegexParser(/^[^{}[\]$\s]/)
 
   // There is a general pattern:
   // parse a thing;
@@ -137,9 +137,22 @@ export default function BananaMessage (message) {
     return result === null ? null : result.join('')
   }
 
+  // Used to define "literals" within template parameters.
+  // The pipe character is the parameter delimeter, so by default
+  // it is not a literal in the parameter
   function literal () {
-    let result = nOrMore(1, escapedOrRegularLiteral)()
+    const result = nOrMore(1, escapedOrRegularLiteral)()
+    return result === null ? null : result.join('')
+  }
 
+  const escapedOrLiteralWithoutSpace = choice([
+    escapedLiteral,
+    regularLiteralWithoutSpace
+  ])
+
+  // Used to define "literals" without spaces, in space-delimited situations
+  function literalWithoutSpace () {
+    const result = nOrMore(1, escapedOrLiteralWithoutSpace)()
     return result === null ? null : result.join('')
   }
 
@@ -223,8 +236,12 @@ export default function BananaMessage (message) {
     }
   ])
 
-  openTemplate = makeStringParser('{{')
-  closeTemplate = makeStringParser('}}')
+  const openTemplate = makeStringParser('{{')
+  const closeTemplate = makeStringParser('}}')
+  const openWikilink = makeStringParser('[[')
+  const closeWikilink = makeStringParser(']]')
+  const openExtlink = makeStringParser('[')
+  const closeExtlink = makeStringParser(']')
 
   function template () {
     let result = sequence([ openTemplate, templateContents, closeTemplate ])
@@ -232,7 +249,95 @@ export default function BananaMessage (message) {
     return result === null ? null : result[ 1 ]
   }
 
-  expression = choice([ template, replacement, literal ])
+  function pipedWikilink () {
+    var result = sequence([
+      nOrMore(1, paramExpression),
+      pipe,
+      nOrMore(1, expression)
+    ])
+    return result === null ? null : [
+      [ 'CONCAT' ].concat(result[ 0 ]),
+      [ 'CONCAT' ].concat(result[ 2 ])
+    ]
+  }
+
+  function unpipedWikilink () {
+    var result = sequence([
+      nOrMore(1, paramExpression)
+    ])
+    return result === null ? null : [
+      [ 'CONCAT' ].concat(result[ 0 ])
+    ]
+  }
+
+  const wikilinkContents = choice([
+    pipedWikilink,
+    unpipedWikilink
+  ])
+
+  function wikilink () {
+    let result = null
+
+    const parsedResult = sequence([
+      openWikilink,
+      wikilinkContents,
+      closeWikilink
+    ])
+
+    if (parsedResult !== null) {
+      const parsedLinkContents = parsedResult[ 1 ]
+      result = [ 'WIKILINK' ].concat(parsedLinkContents)
+    }
+
+    return result
+  }
+
+  // this extlink MUST have inner contents, e.g. [foo] not allowed; [foo bar] [foo <i>bar</i>], etc. are allowed
+  function extlink () {
+    let result = null
+
+    const parsedResult = sequence([
+      openExtlink,
+      nOrMore(1, nonWhitespaceExpression),
+      whitespace,
+      nOrMore(1, expression),
+      closeExtlink
+    ])
+
+    if (parsedResult !== null) {
+      // When the entire link target is a single parameter, we can't use CONCAT, as we allow
+      // passing fancy parameters (like a whole jQuery object or a function) to use for the
+      // link. Check only if it's a single match, since we can either do CONCAT or not for
+      // singles with the same effect.
+      const target = parsedResult[ 1 ].length === 1
+        ? parsedResult[ 1 ][ 0 ]
+        : [ 'CONCAT' ].concat(parsedResult[ 1 ])
+      result = [
+        'EXTLINK',
+        target,
+        [ 'CONCAT' ].concat(parsedResult[ 3 ])
+      ]
+    }
+
+    return result
+  }
+
+  const nonWhitespaceExpression = choice([
+    template,
+    replacement,
+    wikilink,
+    extlink,
+    literalWithoutSpace
+  ])
+
+  expression = choice([
+    template,
+    replacement,
+    wikilink,
+    extlink,
+    literal
+  ])
+
   paramExpression = choice([ template, replacement, literalWithoutBar ])
 
   function start () {

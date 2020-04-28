@@ -8,7 +8,7 @@ export default class BananaParser {
   }
 
   parse (message, params) {
-    if (message.includes('{{')) {
+    if (message.includes('{{') || message.includes('[')) {
       let ast = new BananaMessage(message)
       return this.emitter.emit(ast, params)
     } else {

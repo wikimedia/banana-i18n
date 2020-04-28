@@ -597,6 +597,30 @@ describe('Banana', function () {
     )
   })
 
+  it('should localize the messages with wiki liinks', () => {
+    const banana = new Banana('en')
+    banana.load({
+      'msg-with-extlink': 'This is a link to [https://wikipedia.org wikipedia]',
+      'msg-with-wikilink': 'This is a link to [[Apple|Apple Page]]',
+      'msg-with-wikilink-no-anchor': 'This is a link to [[Apple]]'
+    }, 'en')
+    assert.strictEqual(
+      banana.i18n('msg-with-extlink'),
+      'This is a link to <a href="https://wikipedia.org">wikipedia</a>',
+      'External link'
+    )
+    assert.strictEqual(
+      banana.i18n('msg-with-wikilink'),
+      'This is a link to <a href="./Apple" title="Apple">Apple Page</a>',
+      'Internal Wiki style link with link and title being different'
+    )
+    assert.strictEqual(
+      banana.i18n('msg-with-wikilink-no-anchor'),
+      'This is a link to <a href="./Apple" title="Apple">Apple</a>',
+      'Internal Wiki style link with link and title being same'
+    )
+  })
+
   for (var langCode in grammarTests) {
     grammarTest(langCode, grammarTests[langCode])
   }

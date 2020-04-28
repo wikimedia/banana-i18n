@@ -162,6 +162,46 @@ class BananaEmitter {
   }
 
   /**
+   * Transform wiki-link
+   *
+   * @param {String[]} nodes
+   * @return {String}
+   */
+  wikilink (nodes) {
+    let anchor
+    let page = nodes[0]
+    // Strip leading ':', which is used to suppress special behavior in wikitext links,
+    // e.g. [[:Category:Foo]] or [[:File:Foo.jpg]]
+    if (page.charAt(0) === ':') {
+      page = page.slice(1)
+    }
+    const url = `./${page}`
+
+    if (nodes.length === 1) {
+      // [[Some Page]] or [[Namespace:Some Page]]
+      anchor = page
+    } else {
+      // [[Some Page|anchor text]] or [[Namespace:Some Page|anchor]]
+      anchor = nodes[1]
+    }
+
+    return `<a href="${url}" title="${page}">${anchor}</a>`
+  }
+
+  /**
+   * Transform parsed structure into external link.
+   *
+   * @param {String[]} nodes
+   * @return {String}
+   */
+  extlink (nodes) {
+    if (nodes.length !== 2) {
+      throw Error('Expected two items in the node')
+    }
+    return `<a href="${nodes[0]}">${nodes[1]}</a>`
+  }
+
+  /**
    * Wraps argument with unicode control characters for directionality safety
    *
    * This solves the problem where directionality-neutral characters at the edge of
