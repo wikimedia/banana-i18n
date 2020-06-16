@@ -1,6 +1,6 @@
 {
   "name": "banana-i18n",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "Banana Internationalization library",
   "main": "dist/banana-i18n.js",
   "scripts": {
