@@ -13,13 +13,13 @@ export default class BananaMessageStore {
    */
   load (messageSource, locale) {
     if (typeof messageSource !== 'object') {
-      throw Error(`Invalid message source. Must be an object`)
+      throw new Error(`Invalid message source. Must be an object`)
     }
 
     if (locale) {
       // Validate locale. This is a very minimal test for BCP 47 language tag
       if (!/^[a-zA-Z0-9-]+$/.test(locale)) {
-        throw Error(`Invalid locale ${locale}`)
+        throw new Error(`Invalid locale ${locale}`)
       }
       // Validate messages
       for (let key in messageSource) {
@@ -30,7 +30,7 @@ export default class BananaMessageStore {
           return this.load(messageSource)
         }
         if (typeof messageSource[key] !== 'string') {
-          throw Error(`Invalid message for message ${key} in ${locale} locale.`)
+          throw new Error(`Invalid message for message ${key} in ${locale} locale.`)
         }
         break
       }

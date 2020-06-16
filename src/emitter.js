@@ -196,7 +196,7 @@ class BananaEmitter {
    */
   extlink (nodes) {
     if (nodes.length !== 2) {
-      throw Error('Expected two items in the node')
+      throw new Error('Expected two items in the node')
     }
     return `<a href="${nodes[0]}">${nodes[1]}</a>`
   }
