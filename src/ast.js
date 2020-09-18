@@ -1,8 +1,10 @@
 /**
  * Abstract Syntax Tree for a localization message in 'Banana' format
  * @param {string} message
+ * @param {Object} options options
+ * @param {boolean} [options.wikilinks] whether the wiki style link syntax should be parsed or not
  */
-export default function BananaMessage (message) {
+export default function BananaMessage (message, { wikilinks = false } = {}) {
   let escapedOrLiteralWithoutBar,
     escapedOrRegularLiteral, templateContents, templateName,
     expression, paramExpression, result
@@ -110,9 +112,12 @@ export default function BananaMessage (message) {
   const anyCharacter = makeRegexParser(/^./)
   const dollar = makeStringParser('$')
   const digits = makeRegexParser(/^\d+/)
-  const regularLiteral = makeRegexParser(/^[^{}[\]$\\]/)
-  const regularLiteralWithoutBar = makeRegexParser(/^[^{}[\]$\\|]/)
-  const regularLiteralWithoutSpace = makeRegexParser(/^[^{}[\]$\s]/)
+  // A literal is any character except the special characters in the message markup
+  // Special characters are: [,],{,},$.
+  // If wikilinks parsing is disabled, treat [ and ] as regular text.
+  const regularLiteral = wikilinks ? makeRegexParser(/^[^{}[\]$\\]/) : makeRegexParser(/^[^{}$\\]/)
+  const regularLiteralWithoutBar = wikilinks ? makeRegexParser(/^[^{}[\]$\\|]/) : makeRegexParser(/^[^{}$\\|]/)
+  const regularLiteralWithoutSpace = wikilinks ? makeRegexParser(/^[^{}[\]$\s]/) : makeRegexParser(/^[^{}$\s]/)
 
   // There is a general pattern:
   // parse a thing;
@@ -243,6 +248,9 @@ export default function BananaMessage (message) {
   const openExtlink = makeStringParser('[')
   const closeExtlink = makeStringParser(']')
 
+  /**
+   * An expression in the form of {{...}}
+   */
   function template () {
     let result = sequence([ openTemplate, templateContents, closeTemplate ])
 

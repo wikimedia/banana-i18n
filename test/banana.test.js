@@ -598,7 +598,7 @@ describe('Banana', function () {
   })
 
   it('should localize the messages with wiki liinks', () => {
-    const banana = new Banana('en')
+    const banana = new Banana('en', { wikilinks: true })
     banana.load({
       'msg-with-extlink': 'This is a link to [https://wikipedia.org wikipedia]',
       'msg-with-wikilink': 'This is a link to [[Apple|Apple Page]]',
@@ -618,6 +618,22 @@ describe('Banana', function () {
       banana.i18n('msg-with-wikilink-no-anchor'),
       'This is a link to <a href="./Apple" title="Apple">Apple</a>',
       'Internal Wiki style link with link and title being same'
+    )
+  })
+
+  it('should skip wiki links if disabled', () => {
+    const banana = new Banana('en', { wikilinks: false })
+    banana.load({
+      'msg-with-extlink': 'This is reference [10]',
+      'msg-with-wikilink': '$1 more {{plural:$1|item|items}} [[...]]'
+    }, 'en')
+    assert.strictEqual(
+      banana.i18n('msg-with-extlink'),
+      'This is reference [10]'
+    )
+    assert.strictEqual(
+      banana.i18n('msg-with-wikilink', 10),
+      '10 more items [[...]]'
     )
   })
 
