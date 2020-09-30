@@ -15,7 +15,7 @@ export default function BananaMessage (message, { wikilinks = false } = {}) {
   function choice (parserSyntax) {
     return () => {
       for (let i = 0; i < parserSyntax.length; i++) {
-        let result = parserSyntax[ i ]()
+        const result = parserSyntax[i]()
 
         if (result !== null) {
           return result
@@ -30,12 +30,12 @@ export default function BananaMessage (message, { wikilinks = false } = {}) {
   // All must succeed; otherwise, return null.
   // This is the only eager one.
   function sequence (parserSyntax) {
-    let originalPos = pos
+    const originalPos = pos
 
-    let result = []
+    const result = []
 
     for (let i = 0; i < parserSyntax.length; i++) {
-      let res = parserSyntax[ i ]()
+      const res = parserSyntax[i]()
 
       if (res === null) {
         pos = originalPos
@@ -53,9 +53,9 @@ export default function BananaMessage (message, { wikilinks = false } = {}) {
   // Must succeed a minimum of n times; otherwise, return null.
   function nOrMore (n, p) {
     return () => {
-      let originalPos = pos
+      const originalPos = pos
 
-      let result = []
+      const result = []
 
       let parsed = p()
 
@@ -77,7 +77,7 @@ export default function BananaMessage (message, { wikilinks = false } = {}) {
   // Helpers -- just make parserSyntax out of simpler JS builtin types
 
   function makeStringParser (s) {
-    let len = s.length
+    const len = s.length
 
     return () => {
       let result = null
@@ -93,15 +93,15 @@ export default function BananaMessage (message, { wikilinks = false } = {}) {
 
   function makeRegexParser (regex) {
     return () => {
-      let matches = message.slice(pos).match(regex)
+      const matches = message.slice(pos).match(regex)
 
       if (matches === null) {
         return null
       }
 
-      pos += matches[ 0 ].length
+      pos += matches[0].length
 
-      return matches[ 0 ]
+      return matches[0]
     }
   }
 
@@ -113,7 +113,7 @@ export default function BananaMessage (message, { wikilinks = false } = {}) {
   const dollar = makeStringParser('$')
   const digits = makeRegexParser(/^\d+/)
   // A literal is any character except the special characters in the message markup
-  // Special characters are: [,],{,},$.
+  // Special characters are: [, ], {, }, $, \
   // If wikilinks parsing is disabled, treat [ and ] as regular text.
   const regularLiteral = wikilinks ? makeRegexParser(/^[^{}[\]$\\]/) : makeRegexParser(/^[^{}$\\]/)
   const regularLiteralWithoutBar = wikilinks ? makeRegexParser(/^[^{}[\]$\\|]/) : makeRegexParser(/^[^{}$\\|]/)
@@ -128,7 +128,7 @@ export default function BananaMessage (message, { wikilinks = false } = {}) {
   // May be some scoping issue.
   function transform (p, fn) {
     return () => {
-      let result = p()
+      const result = p()
       return result === null ? null : fn(result)
     }
   }
@@ -137,7 +137,7 @@ export default function BananaMessage (message, { wikilinks = false } = {}) {
   // character is the parameter delimeter, so by default
   // it is not a literal in the parameter
   function literalWithoutBar () {
-    let result = nOrMore(1, escapedOrLiteralWithoutBar)()
+    const result = nOrMore(1, escapedOrLiteralWithoutBar)()
 
     return result === null ? null : result.join('')
   }
@@ -162,23 +162,23 @@ export default function BananaMessage (message, { wikilinks = false } = {}) {
   }
 
   function escapedLiteral () {
-    let result = sequence([ backslash, anyCharacter ])
+    const result = sequence([backslash, anyCharacter])
 
-    return result === null ? null : result[ 1 ]
+    return result === null ? null : result[1]
   }
 
-  choice([ escapedLiteral, regularLiteralWithoutSpace ])
-  escapedOrLiteralWithoutBar = choice([ escapedLiteral, regularLiteralWithoutBar ])
-  escapedOrRegularLiteral = choice([ escapedLiteral, regularLiteral ])
+  choice([escapedLiteral, regularLiteralWithoutSpace])
+  escapedOrLiteralWithoutBar = choice([escapedLiteral, regularLiteralWithoutBar])
+  escapedOrRegularLiteral = choice([escapedLiteral, regularLiteral])
 
   function replacement () {
-    let result = sequence([ dollar, digits ])
+    const result = sequence([dollar, digits])
 
     if (result === null) {
       return null
     }
 
-    return [ 'REPLACE', parseInt(result[ 1 ], 10) - 1 ]
+    return ['REPLACE', parseInt(result[1], 10) - 1]
   }
 
   templateName = transform(
@@ -192,52 +192,52 @@ export default function BananaMessage (message, { wikilinks = false } = {}) {
   )
 
   function templateParam () {
-    let result = sequence([ pipe, nOrMore(0, paramExpression) ])
+    const result = sequence([pipe, nOrMore(0, paramExpression)])
 
     if (result === null) {
       return null
     }
 
-    let expr = result[ 1 ]
+    const expr = result[1]
 
     // use a "CONCAT" operator if there are multiple nodes,
     // otherwise return the first node, raw.
-    return expr.length > 1 ? [ 'CONCAT' ].concat(expr) : expr[ 0 ]
+    return expr.length > 1 ? ['CONCAT'].concat(expr) : expr[0]
   }
 
   function templateWithReplacement () {
-    let result = sequence([ templateName, colon, replacement ])
+    const result = sequence([templateName, colon, replacement])
 
-    return result === null ? null : [ result[ 0 ], result[ 2 ] ]
+    return result === null ? null : [result[0], result[2]]
   }
 
   function templateWithOutReplacement () {
-    let result = sequence([ templateName, colon, paramExpression ])
+    const result = sequence([templateName, colon, paramExpression])
 
-    return result === null ? null : [ result[ 0 ], result[ 2 ] ]
+    return result === null ? null : [result[0], result[2]]
   }
 
   templateContents = choice([
     function () {
-      let res = sequence([
+      const res = sequence([
         // templates can have placeholders for dynamic
         // replacement eg: {{PLURAL:$1|one car|$1 cars}}
         // or no placeholders eg:
         // {{GRAMMAR:genitive|{{SITENAME}}}
-        choice([ templateWithReplacement, templateWithOutReplacement ]),
+        choice([templateWithReplacement, templateWithOutReplacement]),
         nOrMore(0, templateParam)
       ])
 
-      return res === null ? null : res[ 0 ].concat(res[ 1 ])
+      return res === null ? null : res[0].concat(res[1])
     },
     function () {
-      let res = sequence([ templateName, nOrMore(0, templateParam) ])
+      const res = sequence([templateName, nOrMore(0, templateParam)])
 
       if (res === null) {
         return null
       }
 
-      return [ res[ 0 ] ].concat(res[ 1 ])
+      return [res[0]].concat(res[1])
     }
   ])
 
@@ -252,9 +252,9 @@ export default function BananaMessage (message, { wikilinks = false } = {}) {
    * An expression in the form of {{...}}
    */
   function template () {
-    let result = sequence([ openTemplate, templateContents, closeTemplate ])
+    const result = sequence([openTemplate, templateContents, closeTemplate])
 
-    return result === null ? null : result[ 1 ]
+    return result === null ? null : result[1]
   }
 
   function pipedWikilink () {
@@ -264,8 +264,8 @@ export default function BananaMessage (message, { wikilinks = false } = {}) {
       nOrMore(1, expression)
     ])
     return result === null ? null : [
-      [ 'CONCAT' ].concat(result[ 0 ]),
-      [ 'CONCAT' ].concat(result[ 2 ])
+      ['CONCAT'].concat(result[0]),
+      ['CONCAT'].concat(result[2])
     ]
   }
 
@@ -274,7 +274,7 @@ export default function BananaMessage (message, { wikilinks = false } = {}) {
       nOrMore(1, paramExpression)
     ])
     return result === null ? null : [
-      [ 'CONCAT' ].concat(result[ 0 ])
+      ['CONCAT'].concat(result[0])
     ]
   }
 
@@ -293,8 +293,8 @@ export default function BananaMessage (message, { wikilinks = false } = {}) {
     ])
 
     if (parsedResult !== null) {
-      const parsedLinkContents = parsedResult[ 1 ]
-      result = [ 'WIKILINK' ].concat(parsedLinkContents)
+      const parsedLinkContents = parsedResult[1]
+      result = ['WIKILINK'].concat(parsedLinkContents)
     }
 
     return result
@@ -317,13 +317,13 @@ export default function BananaMessage (message, { wikilinks = false } = {}) {
       // passing fancy parameters (like a whole jQuery object or a function) to use for the
       // link. Check only if it's a single match, since we can either do CONCAT or not for
       // singles with the same effect.
-      const target = parsedResult[ 1 ].length === 1
-        ? parsedResult[ 1 ][ 0 ]
-        : [ 'CONCAT' ].concat(parsedResult[ 1 ])
+      const target = parsedResult[1].length === 1
+        ? parsedResult[1][0]
+        : ['CONCAT'].concat(parsedResult[1])
       result = [
         'EXTLINK',
         target,
-        [ 'CONCAT' ].concat(parsedResult[ 3 ])
+        ['CONCAT'].concat(parsedResult[3])
       ]
     }
 
@@ -346,16 +346,16 @@ export default function BananaMessage (message, { wikilinks = false } = {}) {
     literal
   ])
 
-  paramExpression = choice([ template, replacement, literalWithoutBar ])
+  paramExpression = choice([template, replacement, literalWithoutBar])
 
   function start () {
-    let result = nOrMore(0, expression)()
+    const result = nOrMore(0, expression)()
 
     if (result === null) {
       return null
     }
 
-    return [ 'CONCAT' ].concat(result)
+    return ['CONCAT'].concat(result)
   }
 
   result = start()

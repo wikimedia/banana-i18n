@@ -187,7 +187,7 @@ Note that {{GENDER:...}} is not case sensitive. It can be {{gender:...}} too.
 ## Grammar
 
 ```javascript
-const banana=new Banana( 'fi' );
+const banana = new Banana( 'fi' );
 
 const message = "{{grammar:genitive|$1}}";
 
@@ -207,16 +207,16 @@ The embedded context's directionality is determined by looking at the argument f
 
 ## Wiki style links
 
-The message can have [mediawiki markup style links](https://en.wikipedia.org/wiki/Help:Wikitext#Links_and_URLs). By default this is disabled. To enables support for this, pass `wikilinks=true` option to `Banana` constructor. Example:
+The message can use [MediaWiki link syntax](https://www.mediawiki.org/wiki/Help:Links). By default this is disabled. To enable support for this, pass `wikilinks=true` option to `Banana` constructor. Example:
 
 ```
-new Banana('es', { wikilinks:true } )
+new Banana('es', { wikilinks: true } )
 ```
 
 The original wiki links markup is elaborate, but here we only support simple syntax.
 
 * Internal links:  `[[pageTitle]]`  or `[[pageTitle|displayText]]`
-* External links: `[externalURL]` or `[externalURL displayText]`
+* External links: `[https://example.com]` or `[https://example.com display text]`
 
 ## Message documentation
 
