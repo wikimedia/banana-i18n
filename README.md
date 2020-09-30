@@ -215,7 +215,7 @@ new Banana('es', { wikilinks: true } )
 
 The original wiki links markup is elaborate, but here we only support simple syntax.
 
-* Internal links:  `[[pageTitle]]`  or `[[pageTitle|displayText]]`
+* Internal links:  `[[pageTitle]]`  or `[[pageTitle|displayText]]`. For example `[[Apple]]` gives `<a href="./Apple" title="Apple">Apple</a>`.
 * External links: `[https://example.com]` or `[https://example.com display text]`
 
 ## Message documentation
