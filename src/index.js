@@ -3,15 +3,23 @@ import BananaMessageStore from './messagestore'
 import fallbacks from './languages/fallbacks.json'
 
 export default class Banana {
-  constructor (locale, options) {
-    options = options || {}
+  /**
+   * @param {string} locale
+   * @param {Object} options options
+   * @param {string} [options.finalFallback] Final fallback locale
+   * @param {Object|undefined} [options.messages] messages
+   * @param {boolean} [options.wikilinks] whether the wiki style link syntax should be parsed or not
+   */
+  constructor (locale, {
+    finalFallback = 'en', messages = undefined, wikilinks = false } = {}
+  ) {
     this.locale = locale
-    this.parser = new BananaParser(this.locale)
+    this.parser = new BananaParser(this.locale, { wikilinks })
     this.messageStore = new BananaMessageStore()
-    if (options.messages) {
-      this.load(options.messages, this.locale)
+    if (messages) {
+      this.load(messages, this.locale)
     }
-    this.finalFallback = options.finalFallback || 'en'
+    this.finalFallback = finalFallback
   }
 
   /**

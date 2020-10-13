@@ -187,7 +187,7 @@ Note that {{GENDER:...}} is not case sensitive. It can be {{gender:...}} too.
 ## Grammar
 
 ```javascript
-const banana=new Banana( { locale: 'fi' } );
+const banana = new Banana( 'fi' );
 
 const message = "{{grammar:genitive|$1}}";
 
@@ -205,6 +205,18 @@ To avoid BIDI corruption that looks like "(Foo_(Bar", which happens when a strin
 
 The embedded context's directionality is determined by looking at the argument for `$1`, and then explicitly inserted into the Unicode text, ensuring correct rendering (because then the bidi algorithm "knows" the argument text is a separate context).
 
+## Wiki style links
+
+The message can use [MediaWiki link syntax](https://www.mediawiki.org/wiki/Help:Links). By default this is disabled. To enable support for this, pass `wikilinks=true` option to `Banana` constructor. Example:
+
+```
+new Banana('es', { wikilinks: true } )
+```
+
+The original wiki links markup is elaborate, but here we only support simple syntax.
+
+* Internal links:  `[[pageTitle]]`  or `[[pageTitle|displayText]]`. For example `[[Apple]]` gives `<a href="./Apple" title="Apple">Apple</a>`.
+* External links: `[https://example.com]` or `[https://example.com display text]`
 
 ## Message documentation
 
