@@ -4,7 +4,7 @@ module.exports = {
   entry: './src/index.js',
   output: {
     library: 'Banana',
-    libraryExport: 'default',
+    libraryExport: '',
     libraryTarget: 'umd',
     globalObject: 'this',
     filename: 'banana-i18n.js',

@@ -5,7 +5,8 @@
   "main": "dist/banana-i18n.js",
   "scripts": {
     "test": "NODE_ENV=test mocha",
-    "build": "webpack --mode=production"
+    "build": "webpack --mode=production",
+    "prepare": "npm run build"
   },
   "keywords": [
     "internationalization",

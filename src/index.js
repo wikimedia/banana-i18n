@@ -2,6 +2,8 @@ import BananaParser from './parser'
 import BananaMessageStore from './messagestore'
 import fallbacks from './languages/fallbacks.json'
 
+export { BananaParser }
+
 export default class Banana {
   /**
    * @param {string} locale
