@@ -503,6 +503,16 @@ describe('Banana', function () {
     )
   })
 
+  it('should parse formatnum', () => {
+    let locale = 'hi'
+    const banana = new Banana(locale)
+    assert.strictEqual(
+      banana.i18n('{{formatnum:34242}}'),
+      '३४२४२',
+      'Devanagiri numerals'
+    )
+  })
+
   it('should parse the Arabic message', () => {
     const locale = 'ar'
     const banana = new Banana(locale)

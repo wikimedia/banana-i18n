@@ -230,6 +230,23 @@ class BananaEmitter {
     // No strong directionality: do not wrap
     return nodes[0]
   }
+
+  /**
+   * Takes an unformatted number (arab, no group separators and . as decimal separator)
+   * and outputs it in the localized digit script and formatted with decimal
+   * separator, according to the current language.
+   *
+   * @param {Array} nodes List of nodes
+   * @return {number|string} Formatted number
+   */
+  formatnum (nodes) {
+    let isInteger = !!nodes[1] && nodes[1] === 'R'
+    let number = nodes[0]
+    if (typeof number === 'string' || typeof number === 'number') {
+      return this.language.convertNumber(number, isInteger)
+    }
+    return number
+  }
 }
 
 /**
