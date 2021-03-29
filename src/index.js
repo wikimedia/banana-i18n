@@ -79,21 +79,21 @@ export default class Banana {
    * Register a plugin for the library's message parser
    * Example:
    * <pre>
-   * 	banana.registerParserPlugin('sysop', nodes => {
-   * 	  return mw.config.get('wgUserGroups').includes('sysop') ?
-   * 	  	nodes[1] : nodes[2]
-   * 	}
+   *   banana.registerParserPlugin('sysop', nodes => {
+   *     return mw.config.get('wgUserGroups').includes('sysop') ?
+   *       nodes[1] : nodes[2]
+   *   }
    * </pre>
    * This allows messages to know if the user is a sysop. Usage:
    * <pre>
-   * 	banana.i18n('this is a message {{sysop:|Message for sysops|Message for non-sysops}}')
+   *   banana.i18n('this is a message {{sysop:|Message for sysops|Message for non-sysops}}')
    * </pre>
    * See emitter.js for built-in parser operations.
    * @param {string} name - the name of the parser hook
    * @param {Function} plugin - the plugin function. It receives nodes as argument -
    * a mixed array corresponding to the pipe-separated objects in the operation.
    */
-  registerParserPlugin(name, plugin) {
-  	BananaEmitter.prototype[name] = plugin;
+  registerParserPlugin (name, plugin) {
+    BananaEmitter.prototype[name] = plugin
   }
 }
