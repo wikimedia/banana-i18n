@@ -1,5 +1,5 @@
 export interface Messages {
-	[ messageKey: string ]: string; 
+	[ messageKey: string ]: string|Record<string, any>; 
 }
 
 export interface BananaOptions {
@@ -11,9 +11,7 @@ export interface BananaConstructor {
 	new ( locale: string, options?: BananaOptions ): Banana;
 }
 
-export interface MessageSource {
-	[ localizer: string ]: Messages;
-}
+export type MessageSource = Record<string, Messages>;
 
 export type ParameterType = string|object|number|undefined;
 
