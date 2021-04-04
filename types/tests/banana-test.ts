@@ -10,6 +10,7 @@ const banana2 = new Banana('zh', { finalFallback: 'ru' } );
 
 const messages = {
 	'es': {
+		'@metadata': { data: 'me' },
 		'message-key-1': 'Localized message 1 for es',
 		'message-key-2': 'Localized message 2 for es with $1',
 		// Rest of the messages for es
