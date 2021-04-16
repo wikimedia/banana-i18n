@@ -1,7 +1,7 @@
 import BananaParser from './parser'
 import BananaMessageStore from './messagestore'
-import fallbacks from './languages/fallbacks.json'
 import BananaEmitter from './emitter'
+import fallbacks from './languages/fallbacks.json'
 
 export default class Banana {
   /**
@@ -86,7 +86,7 @@ export default class Banana {
    * </pre>
    * This allows messages to know if the user is a sysop. Usage:
    * <pre>
-   *   banana.i18n('this is a message {{sysop:|Message for sysops|Message for non-sysops}}')
+   *   banana.i18n('this is a message {{sysop:_|Message for sysops|Message for non-sysops}}')
    * </pre>
    * See emitter.js for built-in parser operations.
    * @param {string} name - the name of the parser hook
