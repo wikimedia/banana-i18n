@@ -1,0 +1,31 @@
+{
+	"compilerOptions": {
+		"strict": true,
+		"esModuleInterop": true,
+		"target": "esnext",
+		"module": "esnext",
+		"moduleResolution": "node",
+		"experimentalDecorators": true,
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"noImplicitReturns": true,
+		"noUnusedParameters": true,
+		"noUnusedLocals": true,
+		"declaration": true,
+		"baseUrl": ".",
+		"paths": {
+			"@/*": [
+				"src/*"
+			]
+		},
+		"typeRoots": [
+			"./node_modules/@types"
+		]
+	},
+	"include": [
+		"./*.ts"
+	],
+	"exclude": [
+		"node_modules"
+	]
+}
