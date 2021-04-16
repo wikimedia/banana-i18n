@@ -1,6 +1,6 @@
 'use strict'
 
-import Banana from '../src/'
+import Banana from '../src'
 import assert from 'assert'
 import fs from 'fs'
 
