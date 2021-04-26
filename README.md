@@ -220,7 +220,7 @@ The original wiki links markup is elaborate, but here we only support simple syn
 
 ## Extending the parser
 
-Following example illustrates extending the parser to support more magic words
+Following example illustrates extending the parser to support more parser plugins
 
 ```js
 const banana = new Banana('en');
@@ -234,7 +234,7 @@ banana.registerParserPlugin('link', (nodes) => {
 
 This will parse the message
 ```js
-banana.i18n( '{{link:{{SITENAME}}|https://en.wikipedia.org}}' );
+banana.i18n('{{link:{{SITENAME}}|https://en.wikipedia.org}}');
 ```
 to
 

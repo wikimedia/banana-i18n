@@ -531,13 +531,13 @@ describe('Banana', function () {
     )
 
     banana.registerParserPlugin('sitename', () => {
-      return 'Wikipedia';
-    });
+      return 'Wikipedia'
+    })
     banana.registerParserPlugin('link', (nodes) => {
-      return '<a href="' + nodes[1] + '">' + nodes[0] + '</a>';
-    });
+      return '<a href="' + nodes[1] + '">' + nodes[0] + '</a>'
+    })
     assert.strictEqual(
-      banana.i18n( '{{link:{{SITENAME}}|https://en.wikipedia.org}}' ),
+      banana.i18n('{{link:{{SITENAME}}|https://en.wikipedia.org}}'),
       '<a href="https://en.wikipedia.org">Wikipedia</a>',
       'complex use of custom parser plugins'
     )

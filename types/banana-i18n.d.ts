@@ -22,7 +22,7 @@ export interface Banana {
 	setLocale( locale: string ): void;
 	getFallbackLocales(): string[];
 	getMessage( messageKey: string ): string;
-	registerParserPlugin ( name: string, plugin: ((nodes: ParameterType[]) => string) ): void;
+	registerParserPlugin( name: string, plugin: ((nodes: ParameterType[]) => string) ): void;
 }
 
 export const Banana: BananaConstructor;
