@@ -80,7 +80,7 @@ export default class Banana {
    * Example:
    * <pre>
    *   banana.registerParserPlugin('foobar', nodes => {
-   *     return nodes[0] === 'foo ? nodes[1] : nodes[2]
+   *     return nodes[0] === 'foo' ? nodes[1] : nodes[2]
    *   }
    * </pre>
    * Usage:
