@@ -1,6 +1,6 @@
 # banana-i18n - Javascript Internationalization library
 
-[![Build Status](https://secure.travis-ci.org/wikimedia/banana-i18n.png)](http://travis-ci.org/wikimedia/banana-i18n)
+[![Build](https://github.com/wikimedia/banana-i18n/actions/workflows/node.js.yml/badge.svg)](https://github.com/wikimedia/banana-i18n/actions/workflows/node.js.yml)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/wikimedia/banana-18n/blob/master/LICENSE)
 [![npm version](https://img.shields.io/npm/v/banana-i18n.svg?style=flat)](https://www.npmjs.com/package/banana-i18n)
 
