@@ -218,6 +218,30 @@ The original wiki links markup is elaborate, but here we only support simple syn
 * Internal links:  `[[pageTitle]]`  or `[[pageTitle|displayText]]`. For example `[[Apple]]` gives `<a href="./Apple" title="Apple">Apple</a>`.
 * External links: `[https://example.com]` or `[https://example.com display text]`
 
+## Extending the parser
+
+Following example illustrates extending the parser to support more parser plugins
+
+```js
+const banana = new Banana('en');
+banana.registerParserPlugin('sitename', () => {
+  return 'Wikipedia';
+});
+banana.registerParserPlugin('link', (nodes) => {
+  return '<a href="' + nodes[1] + '">' + nodes[0] + '</a>';
+});
+```
+
+This will parse the message
+```js
+banana.i18n('{{link:{{SITENAME}}|https://en.wikipedia.org}}');
+```
+to
+
+```
+<a href="https://en.wikipedia.org">Wikipedia</a>
+```
+
 ## Message documentation
 
 The message keys and messages won't give a enough context about the message being translated to the translator. Whenever a developer adds a new message, it is a usual practice to document the message to a file named qqq.json

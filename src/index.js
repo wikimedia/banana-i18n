@@ -1,5 +1,6 @@
 import BananaParser from './parser'
 import BananaMessageStore from './messagestore'
+import BananaEmitter from './emitter'
 import fallbacks from './languages/fallbacks.json'
 
 export default class Banana {
@@ -72,5 +73,27 @@ export default class Banana {
       fallbackIndex++
     }
     return messageKey
+  }
+
+  /**
+   * Register a plugin for the library's message parser
+   * Example:
+   * <pre>
+   *   banana.registerParserPlugin('foobar', nodes => {
+   *     return nodes[0] === 'foo' ? nodes[1] : nodes[2]
+   *   }
+   * </pre>
+   * Usage:
+   * <pre>
+   *   banana.i18n('{{foobar:foo|first message|second message}}') --> 'first message'
+   *   banana.i18n('{{foobar:bar|first message|second message}}') --> 'second message'
+   * </pre>
+   * See emitter.js for built-in parser operations.
+   * @param {string} name - the name of the plugin
+   * @param {Function} plugin - the plugin function. It receives nodes as argument -
+   * a mixed array corresponding to the pipe-separated objects in the operation.
+   */
+  registerParserPlugin (name, plugin) {
+    BananaEmitter.prototype[name] = plugin
   }
 }

@@ -1,5 +1,5 @@
 export interface Messages {
-	[ messageKey: string ]: string|Record<string, any>; 
+	[ messageKey: string ]: string|Record<string, any>;
 }
 
 export interface BananaOptions {
@@ -22,6 +22,7 @@ export interface Banana {
 	setLocale( locale: string ): void;
 	getFallbackLocales(): string[];
 	getMessage( messageKey: string ): string;
+	registerParserPlugin( name: string, plugin: ((nodes: ParameterType[]) => string) ): void;
 }
 
 export const Banana: BananaConstructor;

@@ -513,6 +513,36 @@ describe('Banana', function () {
     )
   })
 
+  it('should allow custom parser plugins', () => {
+    let locale = 'en'
+    const banana = new Banana(locale)
+    banana.registerParserPlugin('foobar', (nodes) => {
+      return nodes[0] === 'foo' ? nodes[1] : nodes[2]
+    })
+    assert.strictEqual(
+      banana.i18n('{{foobar:foo|first|second}}'),
+      'first',
+      'Emits first argument on passing foo to foobar plugin hook'
+    )
+    assert.strictEqual(
+      banana.i18n('{{foobar:bar|first|second}}'),
+      'second',
+      'Emits second argument on passing bar to foobar plugin hook'
+    )
+
+    banana.registerParserPlugin('sitename', () => {
+      return 'Wikipedia'
+    })
+    banana.registerParserPlugin('link', (nodes) => {
+      return '<a href="' + nodes[1] + '">' + nodes[0] + '</a>'
+    })
+    assert.strictEqual(
+      banana.i18n('{{link:{{SITENAME}}|https://en.wikipedia.org}}'),
+      '<a href="https://en.wikipedia.org">Wikipedia</a>',
+      'complex use of custom parser plugins'
+    )
+  })
+
   it('should parse the Arabic message', () => {
     const locale = 'ar'
     const banana = new Banana(locale)
