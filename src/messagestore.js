@@ -13,7 +13,7 @@ export default class BananaMessageStore {
    */
   load (messageSource, locale) {
     if (typeof messageSource !== 'object') {
-      throw new Error(`Invalid message source. Must be an object`)
+      throw new Error('Invalid message source. Must be an object')
     }
 
     if (locale) {
@@ -22,7 +22,7 @@ export default class BananaMessageStore {
         throw new Error(`Invalid locale ${locale}`)
       }
       // Validate messages
-      for (let key in messageSource) {
+      for (const key in messageSource) {
         if (key.indexOf('@') === 0) continue
         // Check if the message source is locale - message data
         if (typeof messageSource[key] === 'object') {
@@ -47,7 +47,7 @@ export default class BananaMessageStore {
   }
 
   getMessage (key, locale) {
-    let localeMessages = this.sourceMap.get(locale)
+    const localeMessages = this.sourceMap.get(locale)
     return localeMessages ? localeMessages[key] : null
   }
 

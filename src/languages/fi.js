@@ -11,7 +11,7 @@ export default class FinnishLanguage extends BananaLanguage {
     // vowel harmony flag
     let aou = word.match(/[aou][^äöy]*$/i)
 
-    let origWord = word
+    const origWord = word
     if (word.match(/wiki$/i)) {
       aou = false
     }

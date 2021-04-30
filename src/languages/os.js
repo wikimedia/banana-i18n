@@ -7,7 +7,7 @@ import BananaLanguage from './language'
 
 export default class OssetianLanguage extends BananaLanguage {
   convertGrammar (word, form) {
-    var endAllative, jot, hyphen, ending
+    let endAllative, jot, hyphen, ending
 
     // Ending for allative case
     endAllative = 'мæ'

@@ -5,10 +5,6 @@
  * @param {boolean} [options.wikilinks] whether the wiki style link syntax should be parsed or not
  */
 export default function BananaMessage (message, { wikilinks = false } = {}) {
-  let escapedOrLiteralWithoutBar,
-    escapedOrRegularLiteral, templateContents, templateName,
-    expression, paramExpression, result
-
   let pos = 0
 
   // Try parsers until one works, if none work return null
@@ -168,8 +164,8 @@ export default function BananaMessage (message, { wikilinks = false } = {}) {
   }
 
   choice([escapedLiteral, regularLiteralWithoutSpace])
-  escapedOrLiteralWithoutBar = choice([escapedLiteral, regularLiteralWithoutBar])
-  escapedOrRegularLiteral = choice([escapedLiteral, regularLiteral])
+  const escapedOrLiteralWithoutBar = choice([escapedLiteral, regularLiteralWithoutBar])
+  const escapedOrRegularLiteral = choice([escapedLiteral, regularLiteral])
 
   function replacement () {
     const result = sequence([dollar, digits])
@@ -181,7 +177,7 @@ export default function BananaMessage (message, { wikilinks = false } = {}) {
     return ['REPLACE', parseInt(result[1], 10) - 1]
   }
 
-  templateName = transform(
+  const templateName = transform(
     // see $wgLegalTitleChars
     // not allowing : due to the need to catch "PLURAL:$1"
     makeRegexParser(/^[ !"$&'()*,./0-9;=?@A-Z^_`a-z~\x80-\xFF+-]+/),
@@ -217,7 +213,7 @@ export default function BananaMessage (message, { wikilinks = false } = {}) {
     return result === null ? null : [result[0], result[2]]
   }
 
-  templateContents = choice([
+  const templateContents = choice([
     function () {
       const res = sequence([
         // templates can have placeholders for dynamic
@@ -258,24 +254,28 @@ export default function BananaMessage (message, { wikilinks = false } = {}) {
   }
 
   function pipedWikilink () {
-    var result = sequence([
+    const result = sequence([
       nOrMore(1, paramExpression),
       pipe,
       nOrMore(1, expression)
     ])
-    return result === null ? null : [
-      ['CONCAT'].concat(result[0]),
-      ['CONCAT'].concat(result[2])
-    ]
+    return result === null
+      ? null
+      : [
+          ['CONCAT'].concat(result[0]),
+          ['CONCAT'].concat(result[2])
+        ]
   }
 
   function unpipedWikilink () {
-    var result = sequence([
+    const result = sequence([
       nOrMore(1, paramExpression)
     ])
-    return result === null ? null : [
-      ['CONCAT'].concat(result[0])
-    ]
+    return result === null
+      ? null
+      : [
+          ['CONCAT'].concat(result[0])
+        ]
   }
 
   const wikilinkContents = choice([
@@ -338,7 +338,7 @@ export default function BananaMessage (message, { wikilinks = false } = {}) {
     literalWithoutSpace
   ])
 
-  expression = choice([
+  const expression = choice([
     template,
     replacement,
     wikilink,
@@ -346,7 +346,7 @@ export default function BananaMessage (message, { wikilinks = false } = {}) {
     literal
   ])
 
-  paramExpression = choice([template, replacement, literalWithoutBar])
+  const paramExpression = choice([template, replacement, literalWithoutBar])
 
   function start () {
     const result = nOrMore(0, expression)()
@@ -358,7 +358,7 @@ export default function BananaMessage (message, { wikilinks = false } = {}) {
     return ['CONCAT'].concat(result)
   }
 
-  result = start()
+  const result = start()
 
   /*
    * For success, the pos must have gotten to the end of the input

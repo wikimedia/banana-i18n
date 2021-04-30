@@ -3,6 +3,7 @@
 import Banana from '../src'
 import assert from 'assert'
 import fs from 'fs'
+import path from 'path'
 
 const grammarTests = {
   bs: [{
@@ -304,9 +305,9 @@ const grammarTests = {
 
 describe('Banana', function () {
   it('should parse and localize to English', () => {
-    let locale = 'en'
+    const locale = 'en'
     const banana = new Banana(locale, {})
-    const messages = fs.readFileSync(`${__dirname}/i18n/${locale}.json`)
+    const messages = fs.readFileSync(path.join(__dirname, 'i18n', `${locale}.json`))
     banana.load(JSON.parse(messages), locale)
     assert.strictEqual(banana.i18n('msg-one'), 'One')
     assert.strictEqual(banana.i18n('msg-two', 10), '10 results')
@@ -365,7 +366,7 @@ describe('Banana', function () {
   it('should respect locales with country codes', () => {
     const banana = new Banana('en-GB', {
       messages: {
-        'en': {
+        en: {
           message_1: 'Message one',
           message_2: 'Message two'
         }
@@ -410,7 +411,7 @@ describe('Banana', function () {
   it('should merge messages when added to an existing locale', () => {
     const banana = new Banana('ca', {
       messages: {
-        'ca': {
+        ca: {
           message_1: 'Message one',
           message_2: 'Message two'
         }
@@ -427,9 +428,9 @@ describe('Banana', function () {
   })
 
   it('should parse the plural and gender', () => {
-    let locale = 'en'
+    const locale = 'en'
     const banana = new Banana(locale, {})
-    const messages = fs.readFileSync(`${__dirname}/i18n/${locale}.json`)
+    const messages = fs.readFileSync(path.join(__dirname, 'i18n', `${locale}.json`))
     banana.load(JSON.parse(messages), locale)
     assert.strictEqual(
       banana.i18n('This message key does not exist'),
@@ -504,7 +505,7 @@ describe('Banana', function () {
   })
 
   it('should parse formatnum', () => {
-    let locale = 'hi'
+    const locale = 'hi'
     const banana = new Banana(locale)
     assert.strictEqual(
       banana.i18n('{{formatnum:34242}}'),
@@ -514,7 +515,7 @@ describe('Banana', function () {
   })
 
   it('should allow custom parser plugins', () => {
-    let locale = 'en'
+    const locale = 'en'
     const banana = new Banana(locale)
     banana.registerParserPlugin('foobar', (nodes) => {
       return nodes[0] === 'foo' ? nodes[1] : nodes[2]
@@ -677,7 +678,7 @@ describe('Banana', function () {
     )
   })
 
-  for (var langCode in grammarTests) {
+  for (const langCode in grammarTests) {
     grammarTest(langCode, grammarTests[langCode])
   }
 
@@ -696,7 +697,7 @@ function grammarTest (langCode, test) {
     const banana = new Banana(langCode)
     assert.strictEqual(banana.locale, langCode, 'Locale is ' + langCode)
     for (let i = 0; i < test.length; i++) {
-      let grammarMessage = '{{GRAMMAR:' + test[i].grammarForm + '|' +
+      const grammarMessage = '{{GRAMMAR:' + test[i].grammarForm + '|' +
         test[i].word + '}}'
       assert.strictEqual(banana.i18n(grammarMessage), test[i].expected,
         test[i].description)

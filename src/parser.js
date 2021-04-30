@@ -25,8 +25,8 @@ export default class BananaParser {
 
   simpleParse (message, parameters) {
     return message.replace(/\$(\d+)/g, (str, match) => {
-      let index = parseInt(match, 10) - 1
-      return parameters[ index ] !== undefined ? parameters[ index ] : '$' + match
+      const index = parseInt(match, 10) - 1
+      return parameters[index] !== undefined ? parameters[index] : '$' + match
     })
   }
 }

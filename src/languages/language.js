@@ -13,7 +13,7 @@ export default class BananaLanguage {
    * @return {string} Correct form for quantifier in this language
   */
   convertPlural (count, forms) {
-    var explicitPluralPattern = new RegExp('\\d+=', 'i')
+    const explicitPluralPattern = /\d+=/i
 
     if (!forms || forms.length === 0) {
       return ''
@@ -21,13 +21,13 @@ export default class BananaLanguage {
 
     // Handle for Explicit 0= & 1= values
     for (let index = 0; index < forms.length; index++) {
-      let form = forms[ index ]
+      const form = forms[index]
       if (explicitPluralPattern.test(form)) {
-        let formCount = parseInt(form.slice(0, form.indexOf('=')), 10)
+        const formCount = parseInt(form.slice(0, form.indexOf('=')), 10)
         if (formCount === count) {
           return (form.slice(form.indexOf('=') + 1))
         }
-        forms[ index ] = undefined
+        forms[index] = undefined
       }
     }
 
@@ -36,7 +36,7 @@ export default class BananaLanguage {
     let pluralFormIndex = this.getPluralForm(count, this.locale)
     pluralFormIndex = Math.min(pluralFormIndex, forms.length - 1)
 
-    return forms[ pluralFormIndex ]
+    return forms[pluralFormIndex]
   }
 
   /**
@@ -48,7 +48,7 @@ export default class BananaLanguage {
    */
   getPluralForm (number, locale) {
     // Allowed forms as per CLDR spec
-    const pluralForms = [ 'zero', 'one', 'two', 'few', 'many', 'other' ]
+    const pluralForms = ['zero', 'one', 'two', 'few', 'many', 'other']
     // Create an instance of Intl PluralRules. If the locale is invalid or
     // not supported, it fallbacks to `en`.
     const pluralRules = new Intl.PluralRules(locale)
@@ -74,7 +74,7 @@ export default class BananaLanguage {
   convertNumber (num, integer) {
     // Set the target Transform table:
     let transformTable = this.digitTransformTable(this.locale)
-    let numberString = String(num)
+    const numberString = String(num)
     let convertedNumber = ''
 
     if (!transformTable) {
@@ -87,20 +87,20 @@ export default class BananaLanguage {
         return num
       }
 
-      let tmp = []
+      const tmp = []
 
-      for (let item in transformTable) {
-        tmp[ transformTable[ item ] ] = item
+      for (const item in transformTable) {
+        tmp[transformTable[item]] = item
       }
 
       transformTable = tmp
     }
 
     for (let i = 0; i < numberString.length; i++) {
-      if (transformTable[ numberString[ i ] ]) {
-        convertedNumber += transformTable[ numberString[ i ] ]
+      if (transformTable[numberString[i]]) {
+        convertedNumber += transformTable[numberString[i]]
       } else {
-        convertedNumber += numberString[ i ]
+        convertedNumber += numberString[i]
       }
     }
 
@@ -139,18 +139,18 @@ export default class BananaLanguage {
     }
 
     while (forms.length < 2) {
-      forms.push(forms[ forms.length - 1 ])
+      forms.push(forms[forms.length - 1])
     }
 
     if (gender === 'male') {
-      return forms[ 0 ]
+      return forms[0]
     }
 
     if (gender === 'female') {
-      return forms[ 1 ]
+      return forms[1]
     }
 
-    return (forms.length === 3) ? forms[ 2 ] : forms[ 0 ]
+    return (forms.length === 3) ? forms[2] : forms[0]
   }
 
   /**
@@ -162,10 +162,10 @@ export default class BananaLanguage {
    * representation, or boolean false if there is no information.
    */
   digitTransformTable (language) {
-    if (!DIGITTRANSFORMTABLE[ language ]) {
+    if (!DIGITTRANSFORMTABLE[language]) {
       return false
     }
 
-    return DIGITTRANSFORMTABLE[ language ].split('')
+    return DIGITTRANSFORMTABLE[language].split('')
   }
 }
