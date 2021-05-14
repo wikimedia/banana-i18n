@@ -15,7 +15,7 @@ export default class BananaParser {
   }
 
   parse (message, params) {
-    if (message.includes('{{') || (this.wikilinks && message.includes('['))) {
+    if (message.includes('{{') || message.includes('<') || (this.wikilinks && message.includes('['))) {
       const ast = BananaMessage(message, { wikilinks: this.wikilinks })
       return this.emitter.emit(ast, params)
     } else {
