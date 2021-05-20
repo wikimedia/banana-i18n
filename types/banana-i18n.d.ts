@@ -3,8 +3,9 @@ export interface Messages {
 }
 
 export interface BananaOptions {
-	messages?: Messages;
+	messages?: Messages | MessageSource;
 	finalFallback?: string;
+	wikilinks?: boolean;
 }
 
 export interface BananaConstructor {
@@ -17,7 +18,7 @@ export type ParameterType = string|object|number|undefined;
 
 export interface Banana {
 	locale: string;
-	load( messsageSource: MessageSource, locale?: string ): void;
+	load( messageSource: Messages | MessageSource, locale?: string ): void;
 	i18n( key: string, ...params: ParameterType[] ): string;
 	setLocale( locale: string ): void;
 	getFallbackLocales(): string[];
