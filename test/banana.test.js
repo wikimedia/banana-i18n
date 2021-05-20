@@ -408,6 +408,17 @@ describe('Banana', function () {
     }, Error, 'Invalid message key.')
   })
 
+  it('should handle messages that are an empty string', () => {
+    const banana = new Banana('zh-hans', {
+      messages: {
+        'zh-hans': {
+          'word-separator': ''
+        }
+      }
+    })
+    assert.strictEqual(banana.i18n('word-separator'), '', 'Empty string message')
+  })
+
   it('should merge messages when added to an existing locale', () => {
     const banana = new Banana('ca', {
       messages: {
