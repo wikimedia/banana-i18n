@@ -3,15 +3,15 @@ const axios = require('axios')
 
 axios.get('https://en.wikipedia.org/w/api.php?action=query&format=json&meta=languageinfo&formatversion=2&liprop=fallbacks&licode=*').then(response => {
   const fallbacks = Object.fromEntries(
-    Object.entries(response.data.query.languageinfo).filter(([code, {fallbacks}]) => {
+    Object.entries(response.data.query.languageinfo).filter(([code, { fallbacks }]) => {
       return fallbacks.length > 0
-    }).map(([code, {fallbacks}]) => {
+    }).map(([code, { fallbacks }]) => {
       return [code, fallbacks]
     })
   )
   // prettify the json a bit, don't put newlines within arrays
   const jsonString = JSON.stringify(fallbacks, null, 2)
-      .replace(/\n    /g, ' ')
-      .replace(/\n  \]/g, ' ]')
-  fs.writeFileSync('./src/languages/fallbacks.json', jsonString)
+    .replace(/\n {4}/g, ' ')
+    .replace(/\n {2}\]/g, ' ]')
+  fs.writeFileSync('../src/languages/fallbacks.json', jsonString)
 })

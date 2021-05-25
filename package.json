@@ -7,7 +7,7 @@
     "test:types": "tsc -p ./types/tests/tsconfig.json",
     "test:unit": "mocha",
     "test": "npm run lint && npm run test:types && npm run test:unit",
-    "lint": "eslint src test",
+    "lint": "eslint src test scripts",
     "build": "rollup -c",
     "dev": "rollup -c -w"
   },
