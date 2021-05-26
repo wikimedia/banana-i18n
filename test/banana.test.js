@@ -693,11 +693,11 @@ describe('Banana', function () {
     grammarTest(langCode, grammarTests[langCode])
   }
 
-  it('should localize the messages with bidi arguments', () => {
-    const fallbacks = new Banana('uk').getFallbackLocales()
+  it('should give correct fallback locales', () => {
+    const fallbacks = new Banana('sa').getFallbackLocales()
     assert.deepStrictEqual(
       fallbacks,
-      ['ru', 'en'],
+      ['hi', 'en'],
       'Correct fallback locales'
     )
   })
