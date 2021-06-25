@@ -4,6 +4,9 @@ import Banana from '../src'
 import assert from 'assert'
 import fs from 'fs'
 import path from 'path'
+import semver from 'semver'
+
+const isNodeVersionAbove12 = () => semver.major(process.version) > 12
 
 const grammarTests = {
   bs: [{
@@ -518,6 +521,8 @@ describe('Banana', function () {
   it('should parse formatnum', () => {
     const locale = 'ar'
     const banana = new Banana(locale)
+    if (!isNodeVersionAbove12()) { return }
+
     assert.strictEqual(
       banana.i18n('{{formatnum:34242}}'),
       '٣٤٬٢٤٢',
@@ -627,6 +632,8 @@ describe('Banana', function () {
   ]
 
   it('formatnum tests', () => {
+    if (!isNodeVersionAbove12()) { return }
+
     const formatNumMsg = '{{formatnum:$1}}'
     const formatNumMsgInt = '{{formatnum:$1|R}}'
     formatnumTests.forEach((test) => {
@@ -732,14 +739,18 @@ describe('Banana', function () {
     const langCode = 'fa'
     const banana = new Banana(langCode)
     assert.strictEqual(banana.parser.emitter.locale, langCode, 'Locale is ' + langCode)
-    assert.strictEqual(banana.parser.emitter.language.convertNumber('8'), '۸',
-      'Persian transform of 8')
+
     assert.strictEqual(banana.parser.emitter.language.convertNumber('8', true), 8,
+      'Persian transform of 8')
+    assert.strictEqual(banana.parser.emitter.language.convertNumber('۰۱۲۳۴۵۶۷۸۹', true), 123456789,
+      'Persian transform of ۰۱۲۳۴۵۶۷۸۹')
+
+    if (!isNodeVersionAbove12()) { return }
+    // Rest of the tests need Intl.NumberFormat.
+    assert.strictEqual(banana.parser.emitter.language.convertNumber('8'), '۸',
       'Persian transform of 8')
     assert.strictEqual(banana.parser.emitter.language.convertNumber('0123456789'), '۱۲۳٬۴۵۶٬۷۸۹',
       'Persian transform of 0123456789')
-    assert.strictEqual(banana.parser.emitter.language.convertNumber('۰۱۲۳۴۵۶۷۸۹', true), 123456789,
-      'Persian transform of ۰۱۲۳۴۵۶۷۸۹')
   })
 
   it('should localize the messages with bidi arguments', () => {
