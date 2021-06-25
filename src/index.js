@@ -61,7 +61,7 @@ export default class Banana {
 
         const message = this.messageStore.getMessage(messageKey, tryingLocale)
 
-        if (message) {
+        if (typeof message === 'string') {
           return message
         }
 

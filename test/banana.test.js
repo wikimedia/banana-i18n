@@ -408,6 +408,17 @@ describe('Banana', function () {
     }, Error, 'Invalid message key.')
   })
 
+  it('should handle messages that are an empty string', () => {
+    const banana = new Banana('zh-hans', {
+      messages: {
+        'zh-hans': {
+          'word-separator': ''
+        }
+      }
+    })
+    assert.strictEqual(banana.i18n('word-separator'), '', 'Empty string message')
+  })
+
   it('should merge messages when added to an existing locale', () => {
     const banana = new Banana('ca', {
       messages: {
@@ -724,11 +735,11 @@ describe('Banana', function () {
     grammarTest(langCode, grammarTests[langCode])
   }
 
-  it('should localize the messages with bidi arguments', () => {
-    const fallbacks = new Banana('uk').getFallbackLocales()
+  it('should give correct fallback locales', () => {
+    const fallbacks = new Banana('sa').getFallbackLocales()
     assert.deepStrictEqual(
       fallbacks,
-      ['ru', 'en'],
+      ['hi', 'en'],
       'Correct fallback locales'
     )
   })
