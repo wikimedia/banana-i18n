@@ -4,9 +4,8 @@ import Banana from '../src'
 import assert from 'assert'
 import fs from 'fs'
 import path from 'path'
-import semver from 'semver'
 
-const isNodeVersionAbove12 = () => semver.major(process.version) > 12
+const isNodeVersionAbove12 = () => parseInt(process.versions.node) > 12
 
 const grammarTests = {
   bs: [{
