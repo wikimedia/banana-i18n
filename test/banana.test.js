@@ -515,6 +515,13 @@ describe('Banana', function () {
       'This costs $1.',
       'No parameter supplied, $1 appears as is'
     )
+
+    const genderMessageWithoutExplicitGender = '{{gender:|He|She|They}}'
+    assert.strictEqual(
+      banana.i18n(genderMessageWithoutExplicitGender),
+      'They',
+      'Gender test - no gender passed'
+    )
   })
 
   it('should parse formatnum', () => {

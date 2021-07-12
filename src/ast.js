@@ -213,14 +213,21 @@ export default function BananaMessage (message, { wikilinks = false } = {}) {
     return result === null ? null : [result[0], result[2]]
   }
 
+  function templateWithOutFirstParameter () {
+    const result = sequence([templateName, colon])
+    return result === null ? null : [result[0], '']
+  }
+
   const templateContents = choice([
     function () {
       const res = sequence([
         // templates can have placeholders for dynamic
         // replacement eg: {{PLURAL:$1|one car|$1 cars}}
-        // or no placeholders eg:
-        // {{GRAMMAR:genitive|{{SITENAME}}}
-        choice([templateWithReplacement, templateWithOutReplacement]),
+        // or no placeholders eg:{{GRAMMAR:genitive|{{SITENAME}}}
+        // Templates can also have empty first param eg:{{GENDER:|A|B|C}}
+        // to indicate current user in the context. We need to parse them without
+        // error, but can only fallback to gender neutral form.
+        choice([templateWithReplacement, templateWithOutReplacement, templateWithOutFirstParameter]),
         nOrMore(0, templateParam)
       ])
 
