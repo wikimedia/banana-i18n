@@ -1,4 +1,5 @@
 import DIGITTRANSFORMTABLE from './digit-transform.json'
+import fallbacks from './fallbacks.json'
 
 export default class BananaLanguage {
   constructor (locale) {
@@ -71,15 +72,10 @@ export default class BananaLanguage {
    * @param {boolean} integer Convert the return value to an integer
    * @return {string} The number converted into a String.
    */
-  convertNumber (num, integer) {
+  convertNumber (num, integer = false) {
     // Set the target Transform table:
     let transformTable = this.digitTransformTable(this.locale)
-    const numberString = String(num)
     let convertedNumber = ''
-
-    if (!transformTable) {
-      return num
-    }
 
     // Check if the restore to Latin number flag is set:
     if (integer) {
@@ -87,24 +83,41 @@ export default class BananaLanguage {
         return num
       }
 
-      const tmp = []
+      if (!transformTable) {
+        return num
+      }
 
+      // Reverse the digit transformation tables if we are doing unformatting
+      const tmp = []
       for (const item in transformTable) {
         tmp[transformTable[item]] = item
       }
-
       transformTable = tmp
-    }
 
-    for (let i = 0; i < numberString.length; i++) {
-      if (transformTable[numberString[i]]) {
-        convertedNumber += transformTable[numberString[i]]
-      } else {
-        convertedNumber += numberString[i]
+      const numberString = String(num)
+      for (let i = 0; i < numberString.length; i++) {
+        convertedNumber += transformTable[numberString[i]] || numberString[i]
       }
+      return parseFloat(convertedNumber, 10)
     }
 
-    return integer ? parseFloat(convertedNumber, 10) : convertedNumber
+    if (Intl.NumberFormat) {
+      let localeWithFallbacks
+      const fallbackLocales = [...fallbacks[this.locale] || [], 'en']
+      // Check if locale is supported or not
+      if (!Intl.NumberFormat.supportedLocalesOf(this.locale).length) {
+        localeWithFallbacks = fallbackLocales
+      } else {
+        localeWithFallbacks = [this.locale]
+      }
+
+      convertedNumber = new Intl.NumberFormat(localeWithFallbacks).format(num)
+      if (convertedNumber === 'NaN') {
+        // Invalid number. Return it as such.
+        convertedNumber = num
+      }
+      return convertedNumber
+    }
   }
 
   /**

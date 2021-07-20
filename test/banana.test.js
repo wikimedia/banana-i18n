@@ -5,6 +5,8 @@ import assert from 'assert'
 import fs from 'fs'
 import path from 'path'
 
+const isNodeVersionAbove12 = () => parseInt(process.versions.node) > 12
+
 const grammarTests = {
   bs: [{
     word: 'word',
@@ -516,13 +518,132 @@ describe('Banana', function () {
   })
 
   it('should parse formatnum', () => {
-    const locale = 'hi'
+    const locale = 'ar'
     const banana = new Banana(locale)
+    if (!isNodeVersionAbove12()) { return }
+
     assert.strictEqual(
       banana.i18n('{{formatnum:34242}}'),
-      '३४२४२',
-      'Devanagiri numerals'
+      '٣٤٬٢٤٢',
+      'Arabic numerals'
     )
+  })
+
+  const formatnumTests = [
+    {
+      lang: 'en',
+      number: 987654321.654321,
+      result: '987,654,321.654',
+      description: 'formatnum test for English, decimal separator'
+    },
+    {
+      lang: 'ar',
+      number: 987654321.654321,
+      result: '٩٨٧٬٦٥٤٬٣٢١٫٦٥٤',
+      description: 'formatnum test for Arabic, with decimal separator'
+    },
+    {
+      lang: 'ar',
+      number: '٩٨٧٦٥٤٣٢١٫٦٥٤٣٢١',
+      result: '987654321',
+      integer: true,
+      description: 'formatnum test for Arabic, with decimal separator, reverse'
+    },
+    {
+      lang: 'ar',
+      number: -12.89,
+      result: '؜-١٢٫٨٩',
+      description: 'formatnum test for Arabic, negative number'
+    },
+    {
+      lang: 'ar',
+      number: '-١٢٫٨٩',
+      result: '-12',
+      integer: true,
+      description: 'formatnum test for Arabic, negative number, reverse'
+    },
+    {
+      lang: 'nl',
+      number: 987654321.654321,
+      result: '987.654.321,654',
+      description: 'formatnum test for Nederlands, decimal separator'
+    },
+    {
+      lang: 'nl',
+      number: -12.89,
+      result: '-12,89',
+      description: 'formatnum test for Nederlands, negative number'
+    },
+    {
+      lang: 'nl',
+      number: '.89',
+      result: '0,89',
+      description: 'formatnum test for Nederlands'
+    },
+    {
+      lang: 'nl',
+      number: 'invalidnumber',
+      result: 'invalidnumber',
+      description: 'formatnum test for Nederlands, invalid number'
+    },
+    {
+      lang: 'ml',
+      number: '1000000000',
+      result: '1,00,00,00,000',
+      description: 'formatnum test for Malayalam'
+    },
+    {
+      lang: 'ml',
+      number: '-1000000000',
+      result: '-1,00,00,00,000',
+      description: 'formatnum test for Malayalam, negative number'
+    },
+    {
+      lang: 'mr',
+      number: '123456789.123456789',
+      result: '१२,३४,५६,७८९.१२३',
+      description: 'formatnum test for Marathi'
+    },
+    {
+      lang: 'hi',
+      number: '123456789.123456789',
+      result: '12,34,56,789.123',
+      description: 'formatnum test for Hindi'
+    },
+    {
+      lang: 'fr',
+      number: '1234.56',
+      result: '1 234,56',
+      description: 'formatnum test for French'
+    },
+    {
+      lang: 'ban',
+      number: '123456.789',
+      result: '123.456,789',
+      description: 'formatnum test for Balinese using fallback language'
+    },
+    {
+      lang: 'hi',
+      number: '१२,३४,५६,७८९',
+      result: '१२,३४,५६,७८९',
+      description: 'formatnum test for Hindi, Devanagari digits passed'
+    }
+  ]
+
+  it('formatnum tests', () => {
+    if (!isNodeVersionAbove12()) { return }
+
+    const formatNumMsg = '{{formatnum:$1}}'
+    const formatNumMsgInt = '{{formatnum:$1|R}}'
+    formatnumTests.forEach((test) => {
+      const banana = new Banana(test.lang)
+      assert.strictEqual(
+        banana.i18n(test.integer ? formatNumMsgInt : formatNumMsg,
+          test.number),
+        test.result,
+        test.description
+      )
+    })
   })
 
   it('should allow custom parser plugins', () => {
@@ -617,13 +738,17 @@ describe('Banana', function () {
     const langCode = 'fa'
     const banana = new Banana(langCode)
     assert.strictEqual(banana.parser.emitter.locale, langCode, 'Locale is ' + langCode)
-    assert.strictEqual(banana.parser.emitter.language.convertNumber('8'), '۸',
-      'Persian transform of 8')
+
     assert.strictEqual(banana.parser.emitter.language.convertNumber('8', true), 8,
       'Persian transform of 8')
-    assert.strictEqual(banana.parser.emitter.language.convertNumber('0123456789'), '۰۱۲۳۴۵۶۷۸۹',
-      'Persian transform of 0123456789')
     assert.strictEqual(banana.parser.emitter.language.convertNumber('۰۱۲۳۴۵۶۷۸۹', true), 123456789,
+      'Persian transform of ۰۱۲۳۴۵۶۷۸۹')
+
+    if (!isNodeVersionAbove12()) { return }
+    // Rest of the tests need Intl.NumberFormat.
+    assert.strictEqual(banana.parser.emitter.language.convertNumber('8'), '۸',
+      'Persian transform of 8')
+    assert.strictEqual(banana.parser.emitter.language.convertNumber('0123456789'), '۱۲۳٬۴۵۶٬۷۸۹',
       'Persian transform of 0123456789')
   })
 
