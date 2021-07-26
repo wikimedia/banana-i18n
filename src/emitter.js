@@ -248,6 +248,46 @@ class BananaEmitter {
     }
     return number
   }
+
+  /**
+   * Converts array of HTML element key value pairs to object
+   *
+   * @param {Array} nodes Array of consecutive key value pairs, with index 2 * n being a
+   *  name and 2 * n + 1 the associated value
+   * @return {Object} Object mapping attribute name to attribute value
+   */
+  htmlattributes (nodes) {
+    const mapping = {}
+    for (let i = 0, len = nodes.length; i < len; i += 2) {
+      mapping[nodes[i]] = nodes[i + 1]
+    }
+    return mapping
+  }
+
+  /**
+   * Handles an (already-validated) HTML element.
+   *
+   * @param {Array} nodes Nodes to process when creating element
+   * @return {string}
+   */
+  htmlelement (nodes) {
+    const tagName = nodes.shift()
+    /** @type {Object} */
+    const attributes = nodes.shift()
+    let contents = nodes
+    let attrStr = ''
+    for (const attrName in attributes) {
+      attrStr += ` ${attrName}="${attributes[attrName]}"`
+    };
+
+    if (!Array.isArray(contents)) {
+      contents = [contents]
+    }
+
+    const contentsStr = contents.join()
+
+    return `<${tagName}${attrStr}>${contentsStr}</${tagName}>`
+  }
 }
 
 /**

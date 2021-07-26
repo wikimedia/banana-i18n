@@ -814,6 +814,48 @@ describe('Banana', function () {
     )
   })
 
+  it('should parse and localize html content safely', () => {
+    const banana = new Banana('en', { wikilinks: true })
+    banana.load({
+      'msg-for-html-sanitize-script': 'This is <em>link</em> and it is <script>[[Foo|bar]]</script>',
+      'msg-for-html-sanitize-onclick': 'This is <em id="34" class="c-em">link</em> and it is <a onclick="alert()" href="#">a problem</a>',
+      'msg-for-html-sanitize-mismatched': '<i class="important">test</b>',
+      'msg-for-html-sanitize-script-and-external-link': '<script>alert( "script-and-external-link test" );</script> [http://example.com <i>Foo</i> bar]',
+      'msg-for-html-sanitize-script-as-link': '[http://example.com <script>alert( "link-script test" );</script>]',
+      'msg-for-html-sanitize-attribute-quotes': '<i id="double">Double</i> <i id=\'single\'>Single</i> <i style="font-family:&quot;Arial&quot;">Styled</i>'
+    }, 'en')
+    assert.strictEqual(
+      banana.i18n('msg-for-html-sanitize-script'),
+      'This is <em>link</em> and it is &lt;script&gt;<a href="./Foo" title="Foo">bar</a>&lt;/script&gt;',
+      'Script tag text is escaped because that element is not allowed, but link inside is still HTML'
+    )
+    assert.strictEqual(
+      banana.i18n('msg-for-html-sanitize-onclick'),
+      'This is <em id="34" class="c-em">link</em> and it is &lt;a onclick=&quot;alert()&quot; href=&quot;#&quot;&gt;a problem&lt;/a&gt;',
+      'Common attributes are preseved and link is escaped'
+    )
+    assert.strictEqual(
+      banana.i18n('msg-for-html-sanitize-mismatched'),
+      '&lt;i class=&quot;important&quot;&gt;test&lt;/b&gt;',
+      'Mismatched HTML start and end tag treated as text'
+    )
+    assert.strictEqual(
+      banana.i18n('msg-for-html-sanitize-script-and-external-link'),
+      '&lt;script&gt;alert( "script-and-external-link test" );&lt;/script&gt; <a href="http://example.com"><i>Foo</i> bar</a>',
+      'HTML tags in external links not interfering with escaping of other tags'
+    )
+    assert.strictEqual(
+      banana.i18n('msg-for-html-sanitize-script-as-link'),
+      '<a href="http://example.com">&lt;script&gt;alert( "link-script test" );&lt;/script&gt;</a>',
+      'HTML tag not is list of allowed ones in external link anchor is treated as text'
+    )
+    assert.strictEqual(
+      banana.i18n('msg-for-html-sanitize-attribute-quotes'),
+      '<i id="double">Double</i> <i id="single">Single</i> <i style="font-family:&quot;Arial&quot;">Styled</i>',
+      'Attributes with double quotes are preserved as such. Attributes with single quotes are normalized to double. Escaped attributes are parsed correctly'
+    )
+  })
+
   for (const langCode in grammarTests) {
     grammarTest(langCode, grammarTests[langCode])
   }
