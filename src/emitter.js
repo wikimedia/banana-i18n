@@ -138,6 +138,10 @@ class BananaEmitter {
   /**
    * Transform parsed structure into gender Usage
    * {{gender:gender|masculine|feminine|neutral}}.
+   * The first node(gender) must be one of 'male', 'female' or 'unknown'
+   * Mediawiki allows this string as empty to indicate current logged in user.
+   * But this library cannot access such user contexts unless explclitly passed.
+   * So we need to fallback to gender neutral if it is empty.
    *
    * @param {Array} nodes List [ {String}, {String}, {String} , {String} ]
    * @return {string} selected gender form according to current language
