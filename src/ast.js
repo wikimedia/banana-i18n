@@ -113,7 +113,7 @@ export default function BananaMessage (message, { wikilinks = false } = {}) {
   // A literal is any character except the special characters in the message markup
   // Special characters are: [, ], {, }, $, \, <, >
   // If wikilinks parsing is disabled, treat [ and ] as regular text.
-  const regularLiteral = wikilinks ? makeRegexParser(/^[^{}[\]$</>\\]/) : makeRegexParser(/^[^{}$</>\\]/)
+  const regularLiteral = wikilinks ? makeRegexParser(/^[^{}[\]$<\\]/) : makeRegexParser(/^[^{}$<\\]/)
   const regularLiteralWithoutBar = wikilinks ? makeRegexParser(/^[^{}[\]$\\|]/) : makeRegexParser(/^[^{}$\\|]/)
   const regularLiteralWithoutSpace = wikilinks ? makeRegexParser(/^[^{}[\]$\s]/) : makeRegexParser(/^[^{}$\s]/)
 
