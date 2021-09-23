@@ -855,7 +855,7 @@ describe('Banana', function () {
     assert.strictEqual(
       banana.i18n('msg-for-html-sanitize-script-as-link'),
       '<a href="http://example.com">&lt;script&gt;alert( "link-script test" );&lt;/script&gt;</a>',
-      'HTML tag not is list of allowed ones in external link anchor is treated as text'
+      'HTML tag <script> is not in the list of allowed ones. Content is escaped'
     )
     assert.strictEqual(
       banana.i18n('msg-for-html-sanitize-attribute-quotes'),
