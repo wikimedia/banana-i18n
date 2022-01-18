@@ -830,7 +830,8 @@ describe('Banana', function () {
       'msg-for-html-sanitize-script-and-external-link': '<script>alert( "script-and-external-link test" );</script> [http://example.com <i>Foo</i> bar]',
       'msg-for-html-sanitize-script-as-link': '[http://example.com <script>alert( "link-script test" );</script>]',
       'msg-for-html-sanitize-attribute-quotes': '<i id="double">Double</i> <i id=\'single\'>Single</i> <i style="font-family:&quot;Arial&quot;">Styled</i>',
-      'msg-for-html-sanitize-special-content': '<a href="example.com">/></a>'
+      'msg-for-html-sanitize-special-content': '<a href="example.com">/></a>',
+      'msg-for-html-sanitize-placeholder-with-extra': '<span>$1%</span> of apples are good'
     }, 'en')
     assert.strictEqual(
       banana.i18n('msg-for-html-sanitize-script'),
@@ -866,6 +867,11 @@ describe('Banana', function () {
       banana.i18n('msg-for-html-sanitize-special-content'),
       '&lt;a href=&quot;example.com&quot;&gt;/>&lt;/a&gt;',
       'HTML reserved characters like / and > can appear in the content inside tags. They should not be treated with any HTML related meaning.'
+    )
+    assert.strictEqual(
+      banana.i18n('msg-for-html-sanitize-placeholder-with-extra'),
+      '<span>$1%</span> of apples are good',
+      'Placeholders with extra characters like % should be parsed correctly with placeholder replacement'
     )
   })
 

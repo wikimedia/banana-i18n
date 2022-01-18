@@ -288,7 +288,7 @@ class BananaEmitter {
       contents = [contents]
     }
 
-    const contentsStr = contents.join()
+    const contentsStr = contents.join('')
 
     return `<${tagName}${attrStr}>${contentsStr}</${tagName}>`
   }
