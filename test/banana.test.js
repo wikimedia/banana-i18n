@@ -788,6 +788,9 @@ describe('Banana', function () {
       'msg-with-wikilink': 'This is a link to [[Apple|Apple Page]]',
       'msg-with-wikilink-no-anchor': 'This is a link to [[Apple]]'
     }, 'en')
+    banana.load({
+      'msg-with-extlink': 'ഇത് [https://wikipedia.org വിക്കിപീഡീയ] ലിങ്ക്'
+    }, 'ml')
     assert.strictEqual(
       banana.i18n('msg-with-extlink'),
       'This is a link to <a href="https://wikipedia.org">wikipedia</a>',
@@ -802,6 +805,12 @@ describe('Banana', function () {
       banana.i18n('msg-with-wikilink-no-anchor'),
       'This is a link to <a href="./Apple" title="Apple">Apple</a>',
       'Internal Wiki style link with link and title being same'
+    )
+    banana.setLocale('ml')
+    assert.strictEqual(
+      banana.i18n('msg-with-extlink'),
+      'ഇത് <a href="https://wikipedia.org">വിക്കിപീഡീയ</a> ലിങ്ക്',
+      'External link, after changing locale'
     )
   })
 
