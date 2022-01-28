@@ -20,6 +20,7 @@ export default class Banana {
       this.load(messages, this.locale)
     }
     this.finalFallback = finalFallback
+    this.wikilinks = wikilinks
   }
 
   /**
@@ -39,7 +40,7 @@ export default class Banana {
   setLocale (locale) {
     this.locale = locale
     // Update parser
-    this.parser = new BananaParser(this.locale)
+    this.parser = new BananaParser(this.locale, { wikilinks: this.wikilinks })
   }
 
   getFallbackLocales () {
