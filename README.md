@@ -6,7 +6,52 @@
 
 banana-i18n is a javascript internationalization library that uses "banana" format - A JSON based localization file format.
 
-## Banana File format
+- [Features](#features)
+- [Installation](#installation)
+- [Developer Documentation](#developer-documentation)
+  - [Banana File format](#banana-file-format)
+  - [Loading the messages](#loading-the-messages)
+    - [Using the constructor](#using-the-constructor)
+    - [Load the messages for a locale](#load-the-messages-for-a-locale)
+    - [Load the messages for many locales at once](#load-the-messages-for-many-locales-at-once)
+  - [Setting the locale](#setting-the-locale)
+  - [Fallback](#fallback)
+  - [Placeholders](#placeholders)
+  - [Plurals](#plurals)
+  - [Gender](#gender)
+  - [Grammar](#grammar)
+  - [Directionality-safe isolation](#directionality-safe-isolation)
+  - [Wiki style links](#wiki-style-links)
+  - [Extending the parser](#extending-the-parser)
+  - [Message documentation](#message-documentation)
+  - [Translation](#translation)
+  - [Frameworks](#frameworks)
+- [Thanks](#thanks)
+
+## Features
+
+- Simple file format - JSON. Easily readable for humans and machines.
+- Bindings and wrappers available for React.js and Vue.js. See [frameworks](#frameworks) sections.
+- Author and metadata information is not lost anywhere. There are other file formats using comments to store this.
+- Uses MediaWiki convention for placeholders. Easily readable and proven convention. Example: ```There are $1 cars```
+- Supports plural conversion without using extra messages for all plural forms. Plural rule handling is done using CLDR. Covers a wide range of languages
+- Supports gender. By passing the gender value, you get correct sentences according to gender.
+- Supports grammar forms. banana-i18n has a basic but extensible grammar conversion support
+- Fallback chains for all languages.
+- Nestable grammar, plural, gender support. These constructs can be nested to any arbitrary level for supporting sophisticated message localization
+- Message documentation through special language code ```qqq```
+- Extensible message parser to add or customize magic words in the messages. Example: ```{sitename}``` or ```[[link]]```
+- Automatic message file linter using [banana-checker](https://www.npmjs.com/package/grunt-banana-checker)
+- Tested in production - MediaWiki and and its extensions use this file format
+
+## Installation
+
+```
+npm i banana-i18n
+```
+
+## Developer Documentation
+### Banana File format
 
 The message files are json formatted. As a convention, you can have a folder named i18n inside your source code. For each language or locale, have a file named like languagecode.json.
 
@@ -58,11 +103,11 @@ If you are curious to see some real jquery.i18n message file from other projects
 - message files of MediaWiki https://github.com/wikimedia/mediawiki-core/tree/master/languages/i18n
 - message files from jquery.uls project https://github.com/wikimedia/jquery.uls/blob/master/i18n
 
-## Loading the messages
+### Loading the messages
 
 The localized message should be loaded before using .i18n() method. This can be done as follows:
 
-### Using the constructor
+#### Using the constructor
 
 ```javascript
 const banana = new Banana('es',{
@@ -72,7 +117,7 @@ const banana = new Banana('es',{
 })
 ```
 
-### Load the messages for a locale
+#### Load the messages for a locale
 
 After the initialization,
 
@@ -84,7 +129,7 @@ const messages = {
 banana.load(messages, 'es' );
 ```
 
-### Load the messages for many locales at once
+#### Load the messages for many locales at once
 
 If you think it is convinient to load all messages for all locales at once, you can do this as follows. Here the messages are keyed by locale.
 
@@ -112,7 +157,7 @@ fetch('i18n/es.json').then((response) => response.json()).then((messages) => {
 
 You may load the messages in parts too. That means, you can use the `banana.load(message_set1, 'es')` and later `banana.load(message_set2, 'es')`. Both of the messages will be merged to the locale. If message_2 has the same key of message_set1, the last message loaded wins.
 
-## Setting the locale
+### Setting the locale
 
 The constructor for Banana class accepts the locale
 
@@ -128,12 +173,12 @@ banana.setLocale('es'); // Change to new locale
 
 All .i18n() calls will set the message for the new locale from there onwards.
 
-## Fallback
+### Fallback
 
 If a particular message is not localized for locale, but localized for a fallback locale(defined in src/languages/fallbacks.json),
 the .i18n() method will return that. By default English is the final fallback language. But this configurable using `finalFallback` option. Example: `new Banana('ru', {finalFallback:'es' })`
 
-## Placeholders
+### Placeholders
 
 Messages take parameters. They are represented by $1, $2, $3, … in the message texts, and replaced at run time. Typical parameter values are numbers (Example: "Delete 3 versions?"), or user names (Example: "Page last edited by $1"), page names, links, and so on, or sometimes other messages.
 
@@ -142,8 +187,7 @@ const message = "Welcome, $1";
 banana.i18n(message, 'Alice'); // This gives "Welcome, Alice"
 ```
 
-
-## Plurals
+### Plurals
 
 To make the syntax of sentence correct, plural forms are required. jquery.i18n support plural forms in the message using the syntax `{{PLURAL:$1|pluralform1|pluralform2|...}}`
 
@@ -172,7 +216,7 @@ banana.i18n(message, 4 ); // Gives "Box has 4 eggs."
 banana.i18n(message, 12 ); // Gives "Box has a dozen eggs."
 ```
 
-## Gender
+### Gender
 
 Similar to plural, depending on gender of placeholders, mostly user names, the syntax changes dynamically. An example in English is "Alice changed her profile picture" and "Bob changed his profile picture". To support this {{GENDER...}} syntax can be used as shown in example
 
@@ -184,7 +228,7 @@ banana.i18n(message, 'Bob', 'male' ); // This gives "Bob changed his profile pic
 
 Note that {{GENDER:...}} is not case sensitive. It can be {{gender:...}} too.
 
-## Grammar
+### Grammar
 
 ```javascript
 const banana = new Banana( 'fi' );
@@ -197,7 +241,7 @@ banana.locale = 'hy'; // Switch to locale Armenian
 banana.i18n(message, 'Մաունա'); // This gives "Մաունայի"
 ```
 
-## Directionality-safe isolation
+### Directionality-safe isolation
 
 To avoid BIDI corruption that looks like "(Foo_(Bar", which happens when a string is inserted into a context with the reverse directionality, you can use `{{bidi:…}}`. Directionality-neutral characters at the edge of the string can get wrongly interpreted by the BIDI algorithm. This would let you embed your substituted string into a new BIDI context, //e.g.//:
 
@@ -205,7 +249,7 @@ To avoid BIDI corruption that looks like "(Foo_(Bar", which happens when a strin
 
 The embedded context's directionality is determined by looking at the argument for `$1`, and then explicitly inserted into the Unicode text, ensuring correct rendering (because then the bidi algorithm "knows" the argument text is a separate context).
 
-## Wiki style links
+### Wiki style links
 
 The message can use [MediaWiki link syntax](https://www.mediawiki.org/wiki/Help:Links). By default this is disabled. To enable support for this, pass `wikilinks=true` option to `Banana` constructor. Example:
 
@@ -218,7 +262,7 @@ The original wiki links markup is elaborate, but here we only support simple syn
 * Internal links:  `[[pageTitle]]`  or `[[pageTitle|displayText]]`. For example `[[Apple]]` gives `<a href="./Apple" title="Apple">Apple</a>`.
 * External links: `[https://example.com]` or `[https://example.com display text]`
 
-## Extending the parser
+### Extending the parser
 
 Following example illustrates extending the parser to support more parser plugins
 
@@ -242,7 +286,7 @@ to
 <a href="https://en.wikipedia.org">Wikipedia</a>
 ```
 
-## Message documentation
+### Message documentation
 
 The message keys and messages won't give a enough context about the message being translated to the translator. Whenever a developer adds a new message, it is a usual practice to document the message to a file named qqq.json
 with same message key.
@@ -267,23 +311,7 @@ Example qqq.json:
 
 In MediaWiki and its hundreds of extensions, message documentation is a strictly followed practice. There is a grunt task to check whether all messages are documented or not. See https://www.npmjs.org/package/grunt-banana-checker
 
-
-## Features
-
-- Simple file format - JSON. Easily readable for humans and machines.
-- Author and metadata information is not lost anywhere. There are other file formats using comments to store this.
-- Uses MediaWiki convention for placeholders. Easily readable and proven convention. Example: ```There are $1 cars```
-- Supports plural conversion without using extra messages for all plural forms. Plural rule handling is done using CLDR. Covers a wide range of languages
-- Supports gender. By passing the gender value, you get correct sentences according to gender.
-- Supports grammar forms. banana-i18n has a basic but extensible grammar conversion support
-- Fallback chains for all languages.
-- Nestable grammar, plural, gender support. These constructs can be nested to any arbitrary level for supporting sophisticated message localization
-- Message documentation through special language code ```qqq```
-- Extensible message parser to add or customize magic words in the messages. Example: ```{sitename}``` or ```[[link]]```
-- Automatic message file linter using [banana-checker](https://www.npmjs.com/package/grunt-banana-checker)
-- Tested in production - MediaWiki and and its extensions use this file format
-
-## Translation
+### Translation
 
 To translate the banana-i18n based application, depending on the expertise of the translator, there are multiple ways.
 
@@ -291,7 +319,7 @@ To translate the banana-i18n based application, depending on the expertise of th
 - Providing a translation interface along with your application: Suitable for proprietary or private applications with significant amount of translators
 - Using open source translation platforms like translatewiki.net. The MediaWiki and jquery.uls from previous examples use translatewiki.net for crowdsourced message translation. Translatewiki.net can update your code repo at regular intervals with updated translations. Highly recommended if your application is opensource and want it to be localized to as many as languages possible with maximum number of translators.
 
-## Frameworks
+### Frameworks
 
 * React bindings for banana-i18n  https://www.npmjs.com/package/@wikimedia/react.i18n
 * A Banana-i18n wrapper to support localization in Vue.js https://www.npmjs.com/package/vue-banana-i18n
