@@ -319,10 +319,12 @@ To translate the banana-i18n based application, depending on the expertise of th
 - Providing a translation interface along with your application: Suitable for proprietary or private applications with significant amount of translators
 - Using open source translation platforms like translatewiki.net. The MediaWiki and jquery.uls from previous examples use translatewiki.net for crowdsourced message translation. Translatewiki.net can update your code repo at regular intervals with updated translations. Highly recommended if your application is opensource and want it to be localized to as many as languages possible with maximum number of translators.
 
-### Frameworks
+### Frameworks and other programming languages
 
 * React bindings for banana-i18n  https://www.npmjs.com/package/@wikimedia/react.i18n
 * A Banana-i18n wrapper to support localization in Vue.js https://www.npmjs.com/package/vue-banana-i18n
+* Python version of this library: https://pypi.org/project/banana-i18n/
+* Python Flask integration https://pypi.org/project/Flask-Banana/
 
 ## Thanks
 
