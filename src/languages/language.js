@@ -1,5 +1,5 @@
-import DIGITTRANSFORMTABLE from './digit-transform.json'
-import fallbacks from './fallbacks.json'
+import DIGITTRANSFORMTABLE from './languages/digit-transform.json'
+import fallbacks from './languages/fallbacks.json'
 
 export default class BananaLanguage {
   constructor (locale) {

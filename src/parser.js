@@ -1,5 +1,5 @@
-import BananaEmitter from './emitter'
-import BananaMessage from './ast'
+import BananaEmitter from './emitter.js'
+import BananaMessage from './ast.js'
 
 export default class BananaParser {
   /**

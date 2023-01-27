@@ -2,7 +2,7 @@
  * Hungarian language functions
  *
  */
-import BananaLanguage from './language'
+import BananaLanguage from './language/index.js'
 
 export default class HungarianLanguage extends BananaLanguage {
   convertGrammar (word, form) {

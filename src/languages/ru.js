@@ -2,7 +2,7 @@
  * Russian (Русский) language functions
  */
 
-import BananaLanguage from './language'
+import BananaLanguage from './language/index.js'
 
 export default class RussianLanguage extends BananaLanguage {
   convertGrammar (word, form) {
