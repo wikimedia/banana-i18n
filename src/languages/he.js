@@ -1,7 +1,7 @@
 /**
  * Hebrew (עברית) language functions
  */
-import BananaLanguage from './language'
+import BananaLanguage from './language/index.js'
 
 export default class HebrewLanguage extends BananaLanguage {
   convertGrammar (word, form) {
