@@ -13,7 +13,7 @@ export default class Banana {
    */
   constructor (locale, { finalFallback = 'en', messages = undefined, wikilinks = false } = {}
   ) {
-    this.locale = locale
+    this.locale = typeof locale === 'string' ? locale.toLowerCase() : locale
     this.parser = new BananaParser(this.locale, { wikilinks })
     this.messageStore = new BananaMessageStore()
     if (messages) {

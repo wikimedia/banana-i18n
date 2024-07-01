@@ -16,6 +16,11 @@ export default class BananaMessageStore {
       throw new Error('Invalid message source. Must be an object')
     }
 
+    if (typeof locale === 'string') {
+      // BCP 47 tags are case insensitive (T359822)
+      locale = locale.toLowerCase()
+    }
+
     if (locale) {
       // Validate locale. This is a very minimal test for BCP 47 language tag
       if (!/^[a-zA-Z0-9-]+$/.test(locale)) {
@@ -47,7 +52,7 @@ export default class BananaMessageStore {
   }
 
   getMessage (key, locale) {
-    const localeMessages = this.sourceMap.get(locale)
+    const localeMessages = this.sourceMap.get(locale.toLowerCase())
     return localeMessages ? localeMessages[key] : null
   }
 
