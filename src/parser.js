@@ -1,4 +1,4 @@
-import BananaEmitter from './emitter'
+import BananaEmitter, { normalizeLocale } from './emitter'
 import BananaMessage from './ast'
 
 export default class BananaParser {
@@ -9,7 +9,7 @@ export default class BananaParser {
    * @param {boolean} [options.wikilinks] whether the wiki style link syntax should be parsed or not
    */
   constructor (locale, { wikilinks = false } = {}) {
-    this.locale = locale
+    this.locale = normalizeLocale(locale)
     this.wikilinks = wikilinks
     this.emitter = new BananaEmitter(this.locale)
   }

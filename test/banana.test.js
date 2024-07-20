@@ -911,6 +911,10 @@ describe('Banana', function () {
     assert.ok(banana.messageStore.hasLocale('zh-hans'))
     assert.strictEqual(banana.i18n('message_1'), '消息1')
     assert.strictEqual(banana.i18n('message_2'), '消息2')
+
+    banana.setLocale('ZH-HANS')
+    assert.strictEqual(banana.i18n('message_1'), '消息1')
+    assert.strictEqual(banana.i18n('message_2'), '消息2')
   })
 })
 
