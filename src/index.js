@@ -1,7 +1,6 @@
-import BananaParser from './parser.js'
-import BananaMessageStore from './messagestore.js'
-import BananaEmitter from './emitter.js'
-
+import BananaParser from './parser'
+import BananaMessageStore from './messagestore'
+import BananaEmitter, { normalizeLocale } from './emitter'
 import fallbacks from './languages/fallbacks.json'
 
 export default class Banana {
@@ -14,7 +13,7 @@ export default class Banana {
    */
   constructor (locale, { finalFallback = 'en', messages = undefined, wikilinks = false } = {}
   ) {
-    this.locale = locale
+    this.locale = normalizeLocale(locale)
     this.parser = new BananaParser(this.locale, { wikilinks })
     this.messageStore = new BananaMessageStore()
     if (messages) {
@@ -39,7 +38,7 @@ export default class Banana {
   }
 
   setLocale (locale) {
-    this.locale = locale
+    this.locale = normalizeLocale(locale)
     // Update parser
     this.parser = new BananaParser(this.locale, { wikilinks: this.wikilinks })
   }

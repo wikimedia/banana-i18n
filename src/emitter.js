@@ -22,7 +22,7 @@ const strongDirRegExp = new RegExp(
 
 class BananaEmitter {
   constructor (locale) {
-    this.locale = locale
+    this.locale = normalizeLocale(locale)
     this.language = new (languages[locale] || languages.default)(locale)
   }
 
@@ -295,6 +295,17 @@ class BananaEmitter {
 }
 
 /**
+ * Normalize locale to lower case, as BCP 47 tags are case insensitive.
+ * Phabricator ticket: T359822
+ *
+ * @param {unknown} locale
+ * @return {string} normalized locale
+ */
+function normalizeLocale (locale) {
+  return typeof locale === 'string' ? locale.toLowerCase() : locale
+}
+
+/**
  * Gets directionality of the first strongly directional codepoint
  *
  * This is the rule the BIDI algorithm uses to determine the directionality of
@@ -318,4 +329,4 @@ function strongDirFromContent (text) {
   return 'rtl'
 }
 
-export default BananaEmitter
+export { BananaEmitter as default, normalizeLocale }
