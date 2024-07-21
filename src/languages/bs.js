@@ -1,7 +1,7 @@
 /**
  * Bosnian (bosanski) language functions
  */
-import BananaLanguage from './language'
+import BananaLanguage from './language/index.js'
 
 export default class BosnianLanguage extends BananaLanguage {
   convertGrammar (word, form) {

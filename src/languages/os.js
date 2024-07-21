@@ -3,7 +3,7 @@
  *
  * @author Santhosh Thottingal
  */
-import BananaLanguage from './language'
+import BananaLanguage from './language/index.js'
 
 export default class OssetianLanguage extends BananaLanguage {
   convertGrammar (word, form) {
