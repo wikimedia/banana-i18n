@@ -1,4 +1,4 @@
-import languages from './languages'
+import languages from './languages/index.js'
 
 /**
  * Matches the first strong directionality codepoint:
