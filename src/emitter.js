@@ -23,7 +23,7 @@ const strongDirRegExp = new RegExp(
 class BananaEmitter {
   constructor (locale) {
     this.locale = normalizeLocale(locale)
-    this.language = new (languages[locale] || languages.default)(locale)
+    this.language = new (languages[this.locale] || languages.default)(this.locale)
   }
 
   /**
