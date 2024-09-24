@@ -41,7 +41,7 @@
     "eslint-plugin-promise": "^5.2.0",
     "esm": "^3.2.25",
     "mocha": "^10.2.0",
-    "rollup": "^2.65.0",
+    "rollup": "^3.29.5",
     "rollup-plugin-esbuild": "^4.8.2",
     "rollup-plugin-terser": "^7.0.2",
     "typescript": "^4.5.5"
