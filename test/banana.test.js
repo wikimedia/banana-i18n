@@ -896,6 +896,26 @@ describe('Banana', function () {
       'Correct fallback locales'
     )
   })
+
+  it('should treat locale case insensitively', () => {
+    const banana = new Banana('zh-Hans', {
+      messages: {
+        'ZH-hAnS': {
+          message_1: '消息1'
+        },
+        'zh-haNs': {
+          message_2: '消息2'
+        }
+      }
+    })
+    assert.ok(banana.messageStore.hasLocale('zh-hans'))
+    assert.strictEqual(banana.i18n('message_1'), '消息1')
+    assert.strictEqual(banana.i18n('message_2'), '消息2')
+
+    banana.setLocale('ZH-HANS')
+    assert.strictEqual(banana.i18n('message_1'), '消息1')
+    assert.strictEqual(banana.i18n('message_2'), '消息2')
+  })
 })
 
 function grammarTest (langCode, test) {
