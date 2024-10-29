@@ -2,7 +2,7 @@
  * Latin (lingua Latina) language functions
  *
  */
-import BananaLanguage from './language/index.js'
+import BananaLanguage from './language.js'
 
 export default class LatinLanguage extends BananaLanguage {
   convertGrammar (word, form) {

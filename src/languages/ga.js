@@ -1,7 +1,7 @@
 /**
  * Irish (Gaeilge) language functions
  */
-import BananaLanguage from './language/index.js'
+import BananaLanguage from './language.js'
 
 export default class IrishLanguage extends BananaLanguage {
   convertGrammar (word, form) {

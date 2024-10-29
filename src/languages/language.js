@@ -1,5 +1,5 @@
-import DIGITTRANSFORMTABLE from './languages/digit-transform.json'
-import fallbacks from './languages/fallbacks.json'
+import DIGITTRANSFORMTABLE from './digit-transform.json' with { type: 'json' }
+import fallbacks from './fallbacks.json' with { type: 'json' }
 
 export default class BananaLanguage {
   constructor (locale) {
@@ -130,8 +130,8 @@ export default class BananaLanguage {
    * @param {string} form
    * @return {string}
    */
-  // eslint-disable-next-line no-unused-vars
-  convertGrammar (word, form) {
+
+  convertGrammar(word, /*form*/) {
     return word
   }
 

@@ -6,7 +6,7 @@ import fs from 'fs'
 import path from 'path'
 
 const isNodeVersionAbove12 = () => parseInt(process.versions.node) > 12
-
+const __dirname = path.dirname(new URL(import.meta.url).pathname)
 const grammarTests = {
   bs: [{
     word: 'word',
@@ -309,6 +309,7 @@ describe('Banana', function () {
   it('should parse and localize to English', () => {
     const locale = 'en'
     const banana = new Banana(locale, {})
+
     const messages = fs.readFileSync(path.join(__dirname, 'i18n', `${locale}.json`))
     banana.load(JSON.parse(messages), locale)
     assert.strictEqual(banana.i18n('msg-one'), 'One')
@@ -379,7 +380,7 @@ describe('Banana', function () {
 
   it('should throw errors on invalid locales', () => {
     assert.throws(() => {
-      // eslint-disable-next-line no-new
+
       new Banana('es/en', {
         messages: {
           message_1: 'Message one',
@@ -391,7 +392,7 @@ describe('Banana', function () {
 
   it('should throw errors on invalid message source', () => {
     assert.throws(() => {
-      // eslint-disable-next-line no-new
+
       new Banana('es/en', {
         messages: []
       })
@@ -400,7 +401,7 @@ describe('Banana', function () {
 
   it('should throw errors on invalid message key', () => {
     assert.throws(() => {
-      // eslint-disable-next-line no-new
+
       new Banana('es/en', {
         messages: {
           message_1: ['Message one'],
@@ -722,7 +723,7 @@ describe('Banana', function () {
   })
 
   it('should parse explicit plural forms correctly', () => {
-    // eslint-disable-next-line new-cap
+
     const banana = new Banana('en')
     const language = banana.parser.emitter.language
     assert.strictEqual(language.convertPlural(0, ['0=Explicit Zero', 'Singular', 'Plural']),

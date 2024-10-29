@@ -1,3 +1,5 @@
+import Banana from '../../dist/esm/banana-i18n.js'
+
 const banana = new Banana()
 
 function updateText () {

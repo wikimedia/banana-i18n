@@ -1,7 +1,7 @@
 /**
  * Slovenian (Slovenščina) language functions
  */
-import BananaLanguage from './language/index.js'
+import BananaLanguage from './language.js'
 
 export default class SlovenianLanguage extends BananaLanguage {
   convertGrammar (word, form) {

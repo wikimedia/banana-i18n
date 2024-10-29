@@ -1,7 +1,7 @@
-import BananaParser from './parser'
-import BananaMessageStore from './messagestore'
-import BananaEmitter, { normalizeLocale } from './emitter'
-import fallbacks from './languages/fallbacks.json'
+import BananaParser from './parser.js'
+import BananaMessageStore from './messagestore.js'
+import BananaEmitter, { normalizeLocale } from './emitter.js'
+import fallbacks from './languages/fallbacks.json' with { type: 'json' }
 
 export default class Banana {
   /**
