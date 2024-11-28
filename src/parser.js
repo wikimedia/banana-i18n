@@ -1,5 +1,5 @@
-import BananaEmitter, { normalizeLocale } from './emitter'
-import BananaMessage from './ast'
+import BananaEmitter, { normalizeLocale } from './emitter.js'
+import BananaMessage from './ast.js'
 
 export default class BananaParser {
   /**

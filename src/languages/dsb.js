@@ -1,7 +1,7 @@
 /**
  * Lower Sorbian (Dolnoserbski) language functions
  */
-import BananaLanguage from './language/index.js'
+import BananaLanguage from './language.js'
 
 export default class DolnoserbskiLanguage extends BananaLanguage {
   convertGrammar (word, form) {

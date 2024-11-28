@@ -4,7 +4,7 @@
  * @author Santhosh Thottingal
  */
 
-import BananaLanguage from './language/index.js'
+import BananaLanguage from './language.js'
 
 export default class FinnishLanguage extends BananaLanguage {
   convertGrammar (word, form) {

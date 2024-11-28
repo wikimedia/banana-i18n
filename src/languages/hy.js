@@ -2,7 +2,7 @@
  * Armenian (Հայերեն) language functions
  */
 
-import BananaLanguage from './language/index.js'
+import BananaLanguage from './language.js'
 
 export default class ArmenianLanguage extends BananaLanguage {
   convertGrammar (word, form) {

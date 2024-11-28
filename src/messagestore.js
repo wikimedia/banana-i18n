@@ -1,7 +1,7 @@
-import { normalizeLocale } from './emitter'
+import { normalizeLocale } from './emitter.js'
 
 export default class BananaMessageStore {
-  constructor (options) {
+  constructor() {
     this.sourceMap = new Map()
   }
 
