@@ -1,4 +1,5 @@
 export interface Messages {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	[ messageKey: string ]: string|Record<string, any>;
 }
 

@@ -26,7 +26,6 @@ export default [
         sourceMap: true,
         minify: true
       })
-
     ]
   }
 ]
