@@ -8,6 +8,10 @@ banana-i18n is a javascript internationalization library that uses "banana" form
 
 - [Features](#features)
 - [Installation](#installation)
+- [Usage](#usage)
+  - [Node.js](#nodejs)
+  - [JavaScript](#javascript)
+- [Demo](#demo)
 - [Developer Documentation](#developer-documentation)
   - [Banana File format](#banana-file-format)
   - [Loading the messages](#loading-the-messages)
@@ -49,6 +53,46 @@ banana-i18n is a javascript internationalization library that uses "banana" form
 ```
 npm i banana-i18n
 ```
+## Usage
+
+### Node.js
+
+```js
+const Banana = require('banana-i18n');
+
+// Initialize Banana-i18n with the default locale and messages
+const banana = new Banana('en', {
+    messages: {
+        'greet-user': 'Hello, $1!',
+        'items-count': '$1 item(s) found.',
+    }
+});
+
+// Translating a simple message
+console.log(banana.i18n('greet-user', 'Alice')); // Output: Hello, Alice!
+
+// Translating with variables
+console.log(banana.i18n('items-count', 5)); // Output: 5 item(s) found.
+
+// Changing the language dynamically
+banana.setLocale('fr');
+banana.load({
+    'greet-user': 'Bonjour, $1!',
+    'items-count': '$1 article(s) trouvé(s).',
+});
+
+console.log(banana.i18n('greet-user', 'Alice')); // Output: Bonjour, Alice!
+```
+
+### JavaScript
+
+For usage in JavaScript, please check the files under the `demo` folder after building the distribution files by running `npm run build`.
+
+## Demo
+
+See the library in action: https://wikimedia.github.io/banana-i18n/demo/
+
+Related code can be found under the `demo` folder.
 
 ## Developer Documentation
 ### Banana File format
