@@ -38,7 +38,8 @@ jobs:
       uses: actions/checkout@v4
     - run: npm install
     - run: npm run build
-    - name: Remove .gitignore
+    # Remove the .gitignore to ensure the dist folder is included for the demo page.
+    - name: Remove .gitignore 
       run: rm -f .gitignore
     - name: Deploy Pages
       uses: JamesIves/github-pages-deploy-action@v4 
