@@ -1,0 +1,49 @@
+{
+  "name": "banana-i18n",
+  "version": "2.4.0",
+  "description": "Banana Internationalization library",
+  "main": "dist/cjs/banana-i18n.cjs",
+  "module": "dist/esm/banana-i18n.js",
+  "type": "module",
+  "scripts": {
+    "test:types": "tsc -p ./types/tests/tsconfig.json",
+    "test:unit": "mocha",
+    "test": "npm run lint && npm run test:types && npm run test:unit",
+    "lint": "eslint src test scripts",
+    "build": "rollup -c",
+    "dev": "rollup -c -w"
+  },
+  "keywords": [
+    "internationalization",
+    "localization",
+    "i18n",
+    "l10n"
+  ],
+  "author": {
+    "name": "Santhosh Thottingal",
+    "email": "santhosh.thottingal@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wikimedia/banana-i18n.git"
+  },
+  "typings": "./types/index.d.ts",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "@rollup/plugin-commonjs": "^28.0.1",
+    "@rollup/plugin-json": "^6.1.0",
+    "axios": "^1.7.7",
+    "esbuild": "^0.24.0",
+    "eslint": "^9.13.0",
+    "globals": "^15.11.0",
+    "mocha": "^10.7.3",
+    "rollup": "^4.0.0",
+    "rollup-plugin-esbuild": "^6.1.1",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.12.1"
+  }
+}
