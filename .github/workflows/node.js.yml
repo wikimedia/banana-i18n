@@ -28,3 +28,9 @@ jobs:
     - run: npm install
     - run: npm run build --if-present
     - run: npm test
+    
+    - name: Deploy Pages
+      uses: JamesIves/github-pages-deploy-action@v4 
+      with: 
+        folder: .
+        branch: gh-pages
