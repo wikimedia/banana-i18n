@@ -10,7 +10,7 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  test:
 
     runs-on: ubuntu-latest
 
@@ -28,3 +28,21 @@ jobs:
     - run: npm install
     - run: npm run build --if-present
     - run: npm test
+
+  build-and-deploy:
+    
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - run: npm install
+    - run: npm run build
+    # Remove the .gitignore to ensure the dist folder is included for the demo page.
+    - name: Remove .gitignore 
+      run: rm -f .gitignore
+    - name: Deploy Pages
+      uses: JamesIves/github-pages-deploy-action@v4 
+      with: 
+        folder: .
+        branch: gh-pages
