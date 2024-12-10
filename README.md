@@ -175,7 +175,12 @@ banana.load(messages, 'es' );
 
 #### Load the messages for many locales at once
 
-If you think it is convinient to load all messages for all locales at once, you can do this as follows. Here the messages are keyed by locale.
+> While it is possible to store all translations in a single file, we recommend using separate files for each language.
+> This approach makes it easier to find and update >translations. It also simplifies tracking changes via version control systems (VCS) and
+> enables multiple translators or teams to work on different language files simultaneously without conflicts. Additionally, using separate files
+> allows loading only the translations for the currently selected language, improving performance by avoiding the need to load all translations.
+
+If you think it is convenient to load all messages for all locales at once, you can do this as follows. Here the messages are keyed by locale.
 
 ```javascript
 const messages = {
