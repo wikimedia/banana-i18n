@@ -1,10 +1,10 @@
-# banana-i18n - Javascript Internationalization library
+# banana-i18n - JavaScript internationalization library
 
 [![Build](https://github.com/wikimedia/banana-i18n/actions/workflows/node.js.yml/badge.svg)](https://github.com/wikimedia/banana-i18n/actions/workflows/node.js.yml)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/wikimedia/banana-18n/blob/master/LICENSE)
 [![npm version](https://img.shields.io/npm/v/banana-i18n.svg?style=flat)](https://www.npmjs.com/package/banana-i18n)
 
-banana-i18n is a javascript internationalization library that uses "banana" format - A JSON based localization file format.
+banana-i18n is a JavaScript internationalization library that uses the "banana" format – a JSON-based text localization file format.
 
 - [Features](#features)
 - [Installation](#installation)
@@ -34,24 +34,24 @@ banana-i18n is a javascript internationalization library that uses "banana" form
 
 ## Features
 
-- Simple file format - JSON. Easily readable for humans and machines.
-- Bindings and wrappers available for React.js and Vue.js. See [frameworks](#frameworks) sections.
-- Author and metadata information is not lost anywhere. There are other file formats using comments to store this.
-- Uses MediaWiki convention for placeholders. Easily readable and proven convention. Example: ```There are $1 cars```
-- Supports plural conversion without using extra messages for all plural forms. Plural rule handling is done using CLDR. Covers a wide range of languages
-- Supports gender. By passing the gender value, you get correct sentences according to gender.
-- Supports grammar forms. banana-i18n has a basic but extensible grammar conversion support
-- Fallback chains for all languages.
-- Nestable grammar, plural, gender support. These constructs can be nested to any arbitrary level for supporting sophisticated message localization
-- Message documentation through special language code ```qqq```
-- Extensible message parser to add or customize magic words in the messages. Example: ```{sitename}``` or ```[[link]]```
-- Automatic message file linter using [banana-checker](https://www.npmjs.com/package/grunt-banana-checker)
-- Tested in production - MediaWiki and and its extensions use this file format
+- Simple file format – JSON. Easily readable for humans and machines.
+- Bindings and wrappers available for [React.js](https://react.dev) and [Vue.js](https://vuejs.org). See [§ Frameworks](#frameworks) sections.
+- Metadata and author information are preserved (unlike formats relying on comments).
+- Uses the MediaWiki convention for placeholders – readable and proven. Example:  ```There are $1 cars``` where ```$1``` is a placeholder.
+- Supports plural conversion using [CLDR rules](https://www.unicode.org/cldr/charts/47/supplemental/language_plural_rules.html) – covers a wide range of languages without requiring multiple plural messages.
+- Supports gender-specific variations.
+- Provides extensible grammar conversion support.
+- Implements fallback chains for all languages.
+- Allows nesting of grammar, plural, and gender constructs for sophisticated localization.
+- Supports message documentation via the ```qqq``` pseudo-language.
+- Extensible message parser supporting custom magic words in the messages. Example: ```{sitename}``` or ```[[link]]```.
+- Includes an automatic message file linter via [banana-checker](https://www.npmjs.com/package/grunt-banana-checker).
+- Production-tested — used by MediaWiki and its extensions.
 
 ## Installation
 
-```
-npm i banana-i18n
+```bash
+$ npm i banana-i18n
 ```
 ## Usage
 
@@ -86,18 +86,18 @@ console.log(banana.i18n('greet-user', 'Alice')); // Output: Bonjour, Alice!
 
 ### JavaScript
 
-For usage in JavaScript, please check the files under the `demo` folder after building the distribution files by running `npm run build`.
+For usage in JavaScript, build the distribution files by running `npm run build` in the project's root directory (`~/banana-i18n`), then view the demo files in the `~/banana-i18n/demo` subfolder.
 
 ## Demo
 
 See the library in action: https://wikimedia.github.io/banana-i18n/demo/
 
-Related code can be found under the `demo` folder.
+Related code can be found under the `demo` subfolder.
 
-## Developer Documentation
-### Banana File format
+## Developer documentation
+### Banana file format
 
-The message files are json formatted. As a convention, you can have a folder named i18n inside your source code. For each language or locale, have a file named like languagecode.json.
+The message files are JSON-formatted. As a convention, one can have a folder named `i18n` inside your source code. Then for each language or locale, have a file named `<language-code>.json`.
 
 Example:
 
@@ -115,7 +115,7 @@ App
         |--qqq.json
 ```
 
-A simple en.json file example is given below
+A simple `en.json` file example is given below:
 
 ```json
 {
@@ -142,14 +142,14 @@ The json file should be a valid json. The ```@metadata``` holds all kind of data
 
 Messages are key-value pairs. It is a good convention to prefix your appname to message keys to make the messages unique. It acts as the namespace for the message keys. It is also a good convention to have the message keys with ```-``` separated words, all in lower case.
 
-If you are curious to see some real jquery.i18n message file from other projects:
+If you are curious to see some real ```jquery.i18n``` message file from other projects:
 
 - message files of MediaWiki https://github.com/wikimedia/mediawiki-core/tree/master/languages/i18n
 - message files from jquery.uls project https://github.com/wikimedia/jquery.uls/blob/master/i18n
 
 ### Loading the messages
 
-The localized message should be loaded before using .i18n() method. This can be done as follows:
+The localized message should be loaded before using ```.i18n()``` method. This can be done as follows:
 
 #### Using the constructor
 
@@ -198,7 +198,7 @@ const messages = {
 banana.load(messages); // Note that the locale parameter is missing here
 ```
 
-Depeding on your application, the messages can be fetched from a server or a file system. Here is an example that fetches the localized messages json file.
+Depending on your application, the messages can be fetched from a server or a file system. Here is an example that fetches the localized messages json file.
 
 ```javascript
 fetch('i18n/es.json').then((response) => response.json()).then((messages) => {
@@ -206,32 +206,32 @@ fetch('i18n/es.json').then((response) => response.json()).then((messages) => {
 });
 ```
 
-You may load the messages in parts too. That means, you can use the `banana.load(message_set1, 'es')` and later `banana.load(message_set2, 'es')`. Both of the messages will be merged to the locale. If message_2 has the same key of message_set1, the last message loaded wins.
+You may load the messages in parts too. That means, you can use the `banana.load(message_set1, 'es')` and later `banana.load(message_set2, 'es')`. Both of the messages will be merged to the locale. If `message_2` has the same key as `message_set1`, the last message loaded wins.
 
 ### Setting the locale
 
-The constructor for Banana class accepts the locale
+The constructor for the `Banana` class accepts the locale
 
 ```javascript
 const banana = new Banana('es')
 ```
 
-Once the banana i18n is initialized you can change the locale using setLocale method
+Once the banana i18n is initialized you can change the locale using the `setLocale` method
 
 ```javascript
 banana.setLocale('es'); // Change to new locale
 ```
 
-All .i18n() calls will set the message for the new locale from there onwards.
+All `.i18n()` calls will set the message for the new locale from there onwards.
 
 ### Fallback
 
-If a particular message is not localized for locale, but localized for a fallback locale(defined in src/languages/fallbacks.json),
-the .i18n() method will return that. By default English is the final fallback language. But this configurable using `finalFallback` option. Example: `new Banana('ru', {finalFallback:'es' })`
+If a particular message is not localized for locale, but localized for a fallback locale (defined in `src/languages/fallbacks.json`),
+the `.i18n()` method will return that. By default, English is the final fallback language. But this configurable using `finalFallback` option. Example: `new Banana('ru', {finalFallback:'es' })`
 
 ### Placeholders
 
-Messages take parameters. They are represented by $1, $2, $3, … in the message texts, and replaced at run time. Typical parameter values are numbers (Example: "Delete 3 versions?"), or user names (Example: "Page last edited by $1"), page names, links, and so on, or sometimes other messages.
+Messages take parameters. They are represented by `$1`, `$2`, `$3`, … in the message texts, and replaced at run time. Typical parameter values are numbers (Example: `"Delete $3 versions?"`), or usernames (Example: `"Page last edited by $1"`), page names, links, and so on.
 
 ```javascript
 const message = "Welcome, $1";
@@ -240,7 +240,7 @@ banana.i18n(message, 'Alice'); // This gives "Welcome, Alice"
 
 ### Plurals
 
-To make the syntax of sentence correct, plural forms are required. jquery.i18n support plural forms in the message using the syntax `{{PLURAL:$1|pluralform1|pluralform2|...}}`
+To ensure the sentence's syntax is correct, plural forms are required. `jquery.i18n` supports plural forms in the message using the syntax `{{PLURAL:$1|pluralform1|pluralform2|...}}`
 
 For example:
 
@@ -250,16 +250,16 @@ banana.i18n(message, 1); // This gives "Found 1 result"
 banana.i18n(message, 4); // This gives "Found 4 results"
 ```
 
-Note that {{PLURAL:...}} is not case sensitive. It can be {{plural:...}} too.
+> `{{PLURAL:...}}` is _not_ case sensitive.  `{{PLURAL:...}}` and `{{plural:...}}` are equivalent.
 
-In case of English, there are only 2 plural forms, but many languages use more than 2 plural forms. All the plural forms can be given in the above syntax, separated by pipe(|). The number of plural forms for each language is defined in [CLDR](http://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html). You need to provide all those plural forms for a language.
+In the English language, there are only two plural forms, but many languages use more than two plural forms. All the plural forms can be given in the above syntax, separated by a pipe character (`|`). The number of plural forms for each language is defined in [CLDR](http://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html). All those plural forms need to be defined for a language.
 
-For example, English has 2 plural forms and the message format will look like `{{PLURAL:$1|one|other}}`. for Arabic there are 6 plural forms and format will look like `{{PLURAL:$1|zero|one|two|few|many|other}}`.
+For example, an English message would have the format `{{PLURAL:$1|one|other}}`. In Arabic, there are six plural forms and this would have the format `{{PLURAL:$1|zero|one|two|few|many|other}}`.
 
 You cannot skip a plural form from the middle or beginning. However, you can skip from end. For example, in Arabic, if the message is like
 `{{PLURAL:$1|A|B}}`, for 0, A will be used, for numbers that fall under one, two, few, many, other categories B will be used.
 
-If there is an explicit plural form to be given for a specific number, it is possible with the following syntax
+If there is an explicit plural form to be given for a specific number, it is possible with the following syntax:
 
 ```javascript
 const message = 'Box has {{PLURAL:$1|one egg|$1 eggs|12=a dozen eggs}}.';
@@ -269,7 +269,7 @@ banana.i18n(message, 12 ); // Gives "Box has a dozen eggs."
 
 ### Gender
 
-Similar to plural, depending on gender of placeholders, mostly user names, the syntax changes dynamically. An example in English is "Alice changed her profile picture" and "Bob changed his profile picture". To support this {{GENDER...}} syntax can be used as shown in example
+Similar to plural form, depending on the gender of a placeholder, mostly usernames, the syntax can change dynamically. An example in English is "Alice changed her profile picture" and "Bob changed his profile picture". To support this `{{GENDER...}}` syntax can be used as shown in example
 
 ```javascript
 const message = "$1 changed {{GENDER:$2|his|her}} profile picture";
@@ -277,7 +277,7 @@ banana.i18n(message, 'Alice', 'female' ); // This gives "Alice changed her profi
 banana.i18n(message, 'Bob', 'male' ); // This gives "Bob changed his profile picture"
 ```
 
-Note that {{GENDER:...}} is not case sensitive. It can be {{gender:...}} too.
+> `{{GENDER:...}}` is _not_ case sensitive. `{{GENDER:...}}` and `{{gender:...}}` are equivalent.
 
 ### Grammar
 
@@ -294,11 +294,11 @@ banana.i18n(message, 'Մաունա'); // This gives "Մաունայի"
 
 ### Directionality-safe isolation
 
-To avoid BIDI corruption that looks like "(Foo_(Bar", which happens when a string is inserted into a context with the reverse directionality, you can use `{{bidi:…}}`. Directionality-neutral characters at the edge of the string can get wrongly interpreted by the BIDI algorithm. This would let you embed your substituted string into a new BIDI context, //e.g.//:
+To avoid BIDI corruption that looks like `"(Foo_(Bar"`, which happens when a string is inserted into a context with the reverse directionality, you can use `{{bidi:…}}`. Directionality-neutral characters at the edge of the string can get wrongly interpreted by the BIDI algorithm. This would let you embed your substituted string into a new BIDI context, for example:
 
    "`Shalom, {{bidi:$1}}, hi!`"
 
-The embedded context's directionality is determined by looking at the argument for `$1`, and then explicitly inserted into the Unicode text, ensuring correct rendering (because then the bidi algorithm "knows" the argument text is a separate context).
+The embedded context's directionality is determined by looking at the argument for `$1`, and then explicitly inserted into the Unicode text, ensuring correct rendering (because then the BIDI algorithm "knows" the argument text is a separate context).
 
 ### Wiki style links
 
